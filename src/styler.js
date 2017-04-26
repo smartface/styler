@@ -1,6 +1,3 @@
-const _exports = {};
-const cache = {};
-
 export const getClassValue = function(styleDef) {
   return function(className) {
     if (typeof styleDef[className] === "undefined") {

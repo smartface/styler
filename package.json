@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./test/**/*.test.js",
-    "test:watch": "mocha --watch --compilers js:babel-core/register ./test/**/*.test.js"
+    "test:watch": "mocha --watch --compilers js:babel-core/register ./test/**/*.test.js",
+    "build": "babel ./src/ --ignore connectStyler.js --out-dir -d ./dist/."
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/smartface/styler#readme",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
