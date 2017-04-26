@@ -1,3 +1,4 @@
 node_modules
 .babelrc
 .git
+npm-debug.log
