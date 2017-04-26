@@ -1,7 +1,7 @@
 const _exports = {};
 const cache = {};
 
-const getClassValue = function(styleDef) {
+export const getClassValue = function(styleDef) {
   return function(className) {
     if (typeof styleDef[className] === "undefined") {
       return styleDef[className];
@@ -12,7 +12,7 @@ const getClassValue = function(styleDef) {
   };
 };
 
-const findClassNames = (function() {
+export const findClassNames = (function() {
   const classesRegExp = /\.([a-zA-Z\W0-9][^\.]*)/g;
   const cache = {};
   return function(selector) {
@@ -34,8 +34,6 @@ const findClassNames = (function() {
     return classes;
   };
 })();
-
-_exports.findClassNames = findClassNames;
 
 const mapStyles = function(style, classNames, fn) {
   classNames = classNames.slice();

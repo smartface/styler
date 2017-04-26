@@ -2,10 +2,14 @@
  * Created by smartface on 10/18/16.
  */
 
-const findClassNames = require("./../src/styler").findClassNames;
-const styler = require("./../src/styler").styler;
-const resetStylerCache = require("./../src/styler").resetStylerCache;
-const componentStyler = require("./../src/styler").componentStyler;
+import styler, {findClassNames} from "../src/styler";
+import componentStyler from "../src/componentStyler";
+import {expect} from "chai";
+
+// import {findClassNames} from "../src/styler";
+// const styler = require("../src/styler").styler;
+// const resetStylerCache = require("../src/styler").resetStylerCache;
+// const componentStyler = require("../src/styler").componentStyler;
 
 describe("Styler", function() {
   var component = {prop:"-", top: 0, left: 0};
@@ -94,9 +98,9 @@ describe("Styler", function() {
   });
 
   it("should parse classNames from formatted string", function() {
-    expect(findClassNames(".button.red .layout.left")).toEqual([['.button', '.red' ], [ '.layout', '.left' ]]);
-    expect(findClassNames(".button .red   .layout.left")).toEqual([['.button'], ['.red' ], [ '.layout', '.left' ]]);
-    expect(findClassNames(".button .red .label.button.red   .layout.left")).toEqual([['.button'], ['.red' ], [ '.label', '.button', '.red'], [ '.layout', '.left' ]]);
+    expect(findClassNames(".button.red .layout.left")).to.eql([['.button', '.red' ], [ '.layout', '.left' ]]);
+    expect(findClassNames(".button .red   .layout.left")).to.eql([['.button'], ['.red' ], [ '.layout', '.left' ]]);
+    expect(findClassNames(".button .red .label.button.red   .layout.left")).to.eql([['.button'], ['.red' ], [ '.label', '.button', '.red'], [ '.layout', '.left' ]]);
   });
   
   it("should pass styles to callback", function() {
@@ -126,8 +130,9 @@ describe("Styler", function() {
       }
     };
     
-    const componentStyling = componentStyler(style4)(".label.button.red")(component3);
-    expect(component3).toEqual({
+    componentStyler(styler(style4))(".label.button.red")(component3);
+    
+    expect(component3).to.eql({
       width: 300,
       height: 400,
       color: "red2",
@@ -153,14 +158,14 @@ describe("Styler", function() {
         component2[key] = value;
       }
     });
-
-    expect(component).toEqual({
+    
+    expect(component).to.eql({
       width: 100,
       height: 200,
       color: "red"
     });
     
-    expect(component2).toEqual({
+    expect(component2).to.eql({
       width: 100,
       height: 200,
       color: "blue",
@@ -173,18 +178,14 @@ describe("Styler", function() {
   
   it("should pass element styles to callback", function() {
     const styling = styler(style4);
-    var component = {};
+    const component = {};
+    const output = { font: { size: '12dp' }, fillColor: 'black' };
     
     styling(".text-16.blue")(function(className, key, value) {
       component[key] = value;
     });
     
-    expect(component).toEqual({
-      fillColor: "black",
-      font: {
-        size: "12dp"
-      }
-    });
+    expect(component).to.eql(output);
   });
 
   it("should pass element styles to callback2", function() {
@@ -195,7 +196,7 @@ describe("Styler", function() {
       component[key] = value;
     });
     
-    expect(component).toEqual({
+    expect(component).to.eql({
       fillColor: "black",
       font: {
         size: "12dp"
