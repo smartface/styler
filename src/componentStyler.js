@@ -1,3 +1,12 @@
+function setKey(component, key, value){
+  if(typeof value === 'object'){
+    component[key] = component[key] || {};
+    Object.assign(component[key], value);
+  } else {
+    component[key] = value;
+  }
+}
+
 /**
  * Component styling wrapper
  * 
@@ -18,29 +27,12 @@
  */
 export default function componentStyler(styler) {
   return function(className) {
-    return function(component, componentName) {
-      styler(className)(function(styleName, key, value) {
-        function setKey(component, key, value){
-          if(typeof value === 'object'){
-            Object.assign(component[key], value);
-          } else {
-            component[key] = value;
-          }
-        }
-        
-        if(((componentName && componentName == styleName) || (className && styleName)) && component.hasOwnProperty(key)) {
-        //   if (component instanceof AbstractComponent && componentName == styleName && component.hasProp(key)) {
-          if (componentName == styleName && component.hasProp(key)) {
-            component.set(key, value);
-          } else {
-            setKey(component, key, value);
-          }
+    return function(component) {
+      styler(className)(function(cName, key, value) {
+        if(typeof component === "object") {
+          setKey(component, key, value);
         } else {
-          if(typeof component === "object") {
-            setKey(component, key, value);
-          }
-          
-          console.warning("[Warning][ComponentName :"+component.name+", StyleName: "+styleName+"] style cannot be assigned.");
+          throw "[Component :"+component+", ClassName: "+cName+"] style cannot be assigned.";
         }
       });
     };

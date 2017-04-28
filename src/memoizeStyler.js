@@ -1,31 +1,31 @@
 export default function memoizeStyler(styler) {
   const memory = {};
+  
+  return (memoClassName) => {
+    if (!memory[memoClassName]) {
+      const styling = styler(memoClassName);
+      const styles = {};
+  
+      styling((className, key, value) => {
+        if(typeof value === "object")
+          styles[key] = Object.assign({}, value);
+        else 
+          styles[key] = value;
+          
+        // memory[className] = Object.assign({}, styles);
+      });
 
-  return theme => (themeClassName, fn) => {
-    if (memory[themeClassName]) {
-      fn && Object
-        .keys(memory[themeClassName])
-        .forEach(key => fn(themeClassName, key, memory[themeClassName][key]));
-      return memory[themeClassName];
+      memory[memoClassName] = styles;
     }
-
-    const styling = styler(themeClassName);
-    const styles = {};
-
-    styling((className, key, value) => {
-      let val = value;
-
-      if (typeof value === 'function') {
-        val = value(theme);
-      }
-      styles[key] = val;
-      fn && fn(className, key, val);
-    });
-
-    memory[themeClassName] = styles;
-
-    return function removeFromMemory() {
-      delete memory[themeClassName];
-    };
+    
+    return function(fn){
+      Object
+        .keys(memory[memoClassName])
+        .forEach(key => fn(memoClassName, key, memory[memoClassName][key]));
+      
+      return function removeFromMemory() {
+        delete memory[memoClassName];
+      };
+    }
   };
 }
