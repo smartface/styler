@@ -5,6 +5,9 @@ exports.__esModule = true;
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 exports.default = componentStyler;
+
+var _styleAssign = require("./utils/styleAssign");
+
 /**
  * Component styling wrapper
  * 
@@ -25,29 +28,12 @@ exports.default = componentStyler;
  */
 function componentStyler(styler) {
   return function (className) {
-    return function (component, componentName) {
-      styler(className)(function (styleName, key, value) {
-        function setKey(component, key, value) {
-          if ((typeof value === "undefined" ? "undefined" : _typeof(value)) === 'object') {
-            Object.assign(component[key], value);
-          } else {
-            component[key] = value;
-          }
-        }
-
-        if ((componentName && componentName == styleName || className && styleName) && component.hasOwnProperty(key)) {
-          //   if (component instanceof AbstractComponent && componentName == styleName && component.hasProp(key)) {
-          if (componentName == styleName && component.hasProp(key)) {
-            component.set(key, value);
-          } else {
-            setKey(component, key, value);
-          }
+    return function (component) {
+      styler(className)(function (cName, key, value) {
+        if ((typeof component === "undefined" ? "undefined" : _typeof(component)) === "object") {
+          (0, _styleAssign.styleAssignAndClone)(component, key, value);
         } else {
-          if ((typeof component === "undefined" ? "undefined" : _typeof(component)) === "object") {
-            setKey(component, key, value);
-          }
-
-          console.warning("[Warning][ComponentName :" + component.name + ", StyleName: " + styleName + "] style cannot be assigned.");
+          throw "[Component :" + component + ", ClassName: " + cName + "] style cannot be assigned.";
         }
       });
     };

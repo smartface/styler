@@ -1,35 +1,46 @@
 "use strict";
 
 exports.__esModule = true;
+exports.default = memoizeStyler;
 
-exports.default = function (styler) {
-    var memory = {};
-    return function (theme) {
-        return function (className, fn) {
-            if (memory[className]) {
-                fn && Object.keys(memory[className]).forEach(function (key) {
-                    return fn(className, key, memory[className][key]);
-                });
-                return memory[className];
-            }
+var _cloneStyle = require("./utils/cloneStyle");
 
-            var styling = styler(className);
-            var styles = {};
+var _cloneStyle2 = _interopRequireDefault(_cloneStyle);
 
-            styling(function (className, key, value) {
-                if (typeof value === "function") {
-                    value = value(theme);
-                }
+var _styleAssign = require("./utils/styleAssign");
 
-                styles[key] = value;
-                fn && fn(className, key, value);
-            });
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-            memory[className] = styles;
+function memoizeStyler(styler) {
+  var memory = {};
 
-            return function () {
-                delete memory[className];
-            };
-        };
+  return function (memoClassName) {
+    if (!memory[memoClassName]) {
+      var styling = styler(memoClassName);
+      var newStyle = {};
+
+      styling(function (className, key, value) {
+        (0, _styleAssign.styleAssignAndClone)(newStyle, key, value);
+      });
+
+      memory[memoClassName] = newStyle;
+    }
+
+    return function (fn) {
+      var style = (0, _cloneStyle2.default)(memory[memoClassName]);
+      Object.keys(memory[memoClassName]).forEach(function (key) {
+        return fn(memoClassName, key, style[key]);
+      });
+
+      return function removeFromMemory() {
+        var all = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+        if (all) {
+          memory = {};
+        } else {
+          delete memory[memoClassName];
+        }
+      };
     };
-};
+  };
+}

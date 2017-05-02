@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+var _styleAssign = require("./utils/styleAssign");
+
 exports.default = function (styler) {
     return function (theme) {
         return function (className) {
@@ -12,7 +14,7 @@ exports.default = function (styler) {
                     value = value(theme);
                 }
 
-                styles[key] = value;
+                (0, _styleAssign.styleAssignAndClone)(styles, key, value);
             });
 
             return styles;

@@ -1,24 +1,26 @@
 "use strict";
 
 exports.__esModule = true;
+exports.default = mergeStylers;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _styleAssign = require("./utils/styleAssign");
 
-exports.default = mergeStyles;
-function mergeStyles() {
+function mergeStylers() {
     var stylers = Array.prototype.slice.call(arguments);
-    var result = {};
-    var mapFn = function mapFn(className, key, value) {
-        if ((typeof value === "undefined" ? "undefined" : _typeof(value)) === "object") {
-            Object.assign(result[key], value);
-        } else {
-            result[key] = value;
-        }
+
+    return function (className) {
+        return function (fn) {
+            var result = {};
+            var mapFn = function mapFn(className, key, value) {
+                (0, _styleAssign.styleAssignAndClone)(result, key, value);
+                fn && fn(className, key, value);
+            };
+
+            stylers.forEach(function (styler) {
+                return styler(className)(mapFn);
+            });
+
+            return result;
+        };
     };
-
-    stylers.forEach(function (style) {
-        return style(mapFn());
-    });
-
-    return result;
 }
