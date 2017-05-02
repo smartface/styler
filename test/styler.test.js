@@ -5,6 +5,7 @@
 import styler, {findClassNames} from "../src/styler";
 import componentStyler from "../src/componentStyler";
 import {expect} from "chai";
+require("../");
 
 // import {findClassNames} from "../src/styler";
 // const styler = require("../src/styler").styler;
