@@ -3,7 +3,7 @@
  */
 
 import styler, {findClassNames} from "../src/styler";
-import mergeStylers from "../src/mergeStyles";
+import mergeStylers from "../src/mergeStylers";
 import componentStyler from "../src/componentStyler";
 import memoizeStyler from "../src/memoizeStyler";
 import {expect} from "chai";
