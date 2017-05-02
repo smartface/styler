@@ -65,9 +65,8 @@ describe("Merge Styles", function() {
     const component = {};
     const merged = mergeStylers(styler(style1), styler(style2));
     const mergedRes = merged(".button")();
-    console.log("mergedRes", mergedRes);
+    
     componentStyler(memoizeStyler(merged))(".button")(component);
-    console.log("componentRes: ", component);
     expect({width: 100, height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } }).to.be.eql(component);
   });
 });

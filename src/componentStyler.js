@@ -1,11 +1,4 @@
-function setKey(component, key, value){
-  if(typeof value === 'object'){
-    component[key] = component[key] || {};
-    Object.assign(component[key], value);
-  } else {
-    component[key] = value;
-  }
-}
+import {styleAssignAndClone} from "./utils/styleAssign";
 
 /**
  * Component styling wrapper
@@ -30,7 +23,7 @@ export default function componentStyler(styler) {
     return function(component) {
       styler(className)(function(cName, key, value) {
         if(typeof component === "object") {
-          setKey(component, key, value);
+          styleAssignAndClone(component, key, value);
         } else {
           throw "[Component :"+component+", ClassName: "+cName+"] style cannot be assigned.";
         }

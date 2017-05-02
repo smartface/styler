@@ -147,8 +147,30 @@ describe("Styler", function() {
       component[key] = value;
     });
     
-    styling(".button .red .label.button.red   .layout.left")(function(className, key, value){
-      
+    expect(component).to.eql({
+      width: 100,
+      height: 200,
+      color: "red"
+    });
+    
+    component = {};
+    
+    styling(".button    .text-16.blue.bold")(function(className, key, value){
+      if(typeof component[key] === "object"){
+        component[key] = Object.assign({}, component[key], value);
+      } else {
+        component[key] = value;
+      }
+    });
+    
+    expect(component).to.eql({
+      width: 100,
+      height: 200,
+      color: "blue",
+      font: {
+        bold: true,
+        size: '16'
+      }
     });
     
     styling(".button .text-16.blue.bold")(function(className, key, value){
@@ -159,12 +181,7 @@ describe("Styler", function() {
       }
     });
     
-    expect(component).to.eql({
-      width: 100,
-      height: 200,
-      color: "red"
-    });
-    
+
     expect(component2).to.eql({
       width: 100,
       height: 200,

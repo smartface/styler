@@ -1,31 +1,35 @@
+import cloneStyle from "./utils/cloneStyle";
+
+import {styleAssignAndClone} from "./utils/styleAssign";
+
 export default function memoizeStyler(styler) {
-  const memory = {};
+  let memory = {};
   
   return (memoClassName) => {
     if (!memory[memoClassName]) {
       const styling = styler(memoClassName);
-      const styles = {};
+      const newStyle = {};
   
       styling((className, key, value) => {
-        if(typeof value === "object")
-          styles[key] = Object.assign({}, value);
-        else 
-          styles[key] = value;
-          
-        // memory[className] = Object.assign({}, styles);
+        styleAssignAndClone(newStyle, key, value);
       });
 
-      memory[memoClassName] = styles;
+      memory[memoClassName] = newStyle;
     }
     
     return function(fn){
+      const style = cloneStyle(memory[memoClassName]);
       Object
         .keys(memory[memoClassName])
-        .forEach(key => fn(memoClassName, key, memory[memoClassName][key]));
+        .forEach(key => fn(memoClassName, key, style[key]));
       
-      return function removeFromMemory() {
-        delete memory[memoClassName];
+      return function removeFromMemory(all=false) {
+        if(all){
+          memory = {};
+        } else {
+          delete memory[memoClassName];
+        }
       };
-    }
+    };
   };
 }

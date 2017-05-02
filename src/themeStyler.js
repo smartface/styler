@@ -1,3 +1,5 @@
+import {styleAssignAndClone} from "./utils/styleAssign";
+
 export default (styler) => {
     return (theme) => {
         return (className) => {
@@ -8,7 +10,7 @@ export default (styler) => {
                     value = value(theme);
                 }
                 
-                styles[key] = value;
+                styleAssignAndClone(styles, key, value);
             });
 
             return styles;
