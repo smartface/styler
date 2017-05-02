@@ -1,8 +1,8 @@
 module.exports = {
-    styler: require("./dist/styler").default,
-    componentStyler: require("./dist/componentStyler").default,
-    extendStyler: require("./dist/extendStyler").default,
-    mergeStyles: require("./dist/mergeStyles").default,
-    themeStyler: require("./dist/themeStyler").default,
-    memoizeStyler: require("./dist/memoizeStyler").default
+    styler: require("./dist/styler"),
+    componentStyler: require("./dist/componentStyler"),
+    extendStyler: require("./dist/extendStyler"),
+    mergeStyles: require("./dist/mergeStyles"),
+    themeStyler: require("./dist/themeStyler"),
+    memoizeStyler: require("./dist/memoizeStyler")
 };
