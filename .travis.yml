@@ -1,0 +1,25 @@
+---
+sudo: false
+language: node_js
+node_js:
+- 6.x
+rvm:
+- 2.2.3
+script: npm test
+before_deploy:
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - export GIT_TAG=$TRAVIS_BRANCH-1.0.0-rc$TRAVIS_BUILD_NUMBER
+  - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
+  - git push -q https://$TAGPERM@github.com/smartface/styler --tags
+deploy:
+  provider: npm
+  email: mail@cenkcetinkaya.com
+  api_key:
+    secure: ufyKEWYFQn4H8V/Zb67vpcbq8bzfKa8oSOkPtQ1pXk0rZ5Hm2Fzl0WM404YmAYTjgNsw+iYKHk5UbDXO9eJtBA4LYFztx/Jo00GXwUZQO+vy9NNSjNYnuMox8lY3djYTXxHS4e0pKPNxMFFbqlaFkgGehzXHDvbkfB3Qj+FlrNIataLwCkGv8zn9WhZHxCRhlBdQhdcl4Tmunm8bQJMivT1391v9AaTLFpJsPGWklFkx50oPY5wh8V42L0monLGYsHZju2lhb0lllePPkpJDBoBTf8wiZ4/qF44Bud2tBe8Ib794WWP1pX9mg/3jchno9QKlbFZySajlJnUcTC9esDEKzaOYdV1n5346spX7qKBNUznjEfhoUh9ITSiLpxvyd6c7O9eweuz/chlzE73D+Usiwf+pWZjEH5Kkqe3CSy6862kwUj9sOBdAVFuBz+fypHhKr/MhnJU64Q929SRskkL7zBinw3xj/M/qvtCcZkjAGraA9hsF8W/C0rVdcD77jsTrxmtQEps6KD8Mk+9TJFT7akF/N7xL7sWGqXwxWW6lEMqyTyQTYifIymV1V3l+uRjNYFyihXJj0h0QPCiB3Nq0ZOeZM5iNTMwPvKDqftJhlICl6QH3F8A9vPB+kj7R6ytzt++RM21k5e8AziAH4/eUac2YBLO4K78pguYdw0I=
+  on:
+    tags: true
+    repo: smartface/styler
+branches:
+  only:
+    master

@@ -5,7 +5,7 @@
 import styler, {findClassNames} from "../src/styler";
 import componentStyler from "../src/componentStyler";
 import {expect} from "chai";
-require("../");
+const Styler = require("../");
 
 // import {findClassNames} from "../src/styler";
 // const styler = require("../src/styler").styler;
@@ -98,6 +98,15 @@ describe("Styler", function() {
   beforeEach(function() {
   });
 
+  it("should be required from lib/index", function() {
+    console.log(Styler);
+    expect(typeof Styler.styler === "function").to.be.true;
+    expect(typeof Styler.componentStyler === "function").to.be.true;
+    expect(typeof Styler.extendStyler === "function").to.be.true;
+    expect(typeof Styler.themeStyler === "function").to.be.true;
+    expect(typeof Styler.memoizeStyler === "function").to.be.true;
+  });
+  
   it("should parse classNames from formatted string", function() {
     expect(findClassNames(".button.red .layout.left")).to.eql([['.button', '.red' ], [ '.layout', '.left' ]]);
     expect(findClassNames(".button .red   .layout.left")).to.eql([['.button'], ['.red' ], [ '.layout', '.left' ]]);
