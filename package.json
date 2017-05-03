@@ -39,5 +39,13 @@
     "eslint": "^3.19.0",
     "eslint-plugin-react": "^6.10.3",
     "mocha": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "./.cz-config.js"
+    }
   }
 }
