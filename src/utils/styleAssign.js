@@ -4,9 +4,9 @@ export function styleAssign(target, key, value) {
   const style = target;
 
   if (typeof style[key] === "object") {
-    Object.assign(style[key], value);
+    style[key] = {...style[key], ...value};
   } else if (typeof value === "object") {
-    style[key] = value;
+    style[key] = {...value};
   } else {
     style[key] = value;
   }

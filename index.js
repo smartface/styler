@@ -1,10 +1,10 @@
 var exports = module.exports = {};
 
-var styler = require("./lib/styler").default;
-var componentStyler = require("./lib/componentStyler").default;
-var extendStyler = require("./lib/extendStyler").default;
-var themeStyler = require("./lib/themeStyler").default;
-var memoizeStyler = require("./lib/memoizeStyler").default;
+var styler = require("./lib/styler");
+var componentStyler = require("./lib/componentStyler");
+var extendStyler = require("./lib/extendStyler");
+var themeStyler = require("./lib/themeStyler");
+var memoizeStyler = require("./lib/memoizeStyler");
 
 module.exports = {
   styler: styler,

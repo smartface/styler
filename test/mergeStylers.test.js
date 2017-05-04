@@ -2,7 +2,8 @@
  * Created by smartface on 10/18/16.
  */
 
-import styler, {findClassNames} from "../src/styler";
+import styler from "../src/styler";
+import findClassNames from "../src/utils/findClassNames";
 import mergeStylers from "../src/mergeStylers";
 import componentStyler from "../src/componentStyler";
 import memoizeStyler from "../src/memoizeStyler";

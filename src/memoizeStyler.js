@@ -1,5 +1,4 @@
 import cloneStyle from "./utils/cloneStyle";
-
 import {styleAssignAndClone} from "./utils/styleAssign";
 
 export default function memoizeStyler(styler) {

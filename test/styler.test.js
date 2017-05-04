@@ -2,7 +2,8 @@
  * Created by smartface on 10/18/16.
  */
 
-import styler, {findClassNames} from "../src/styler";
+import styler from "../src/styler";
+import findClassNames from "../src/utils/findClassNames";
 import componentStyler from "../src/componentStyler";
 import {expect} from "chai";
 const Styler = require("../");
@@ -173,15 +174,16 @@ describe("Styler", function() {
       }
     });
     
-    expect(component).to.eql({
-      width: 100,
-      height: 200,
-      color: "blue",
-      font: {
-        bold: true,
-        size: '16'
-      }
-    });
+    expect(component)
+      .to.eql({
+        width: 100,
+        height: 200,
+        color: "blue",
+        font: {
+          bold: true,
+          size: '16'
+        }
+      });
     
     styling(".button .text-16.blue.bold")(function(className, key, value){
       if(typeof component2[key] === "object"){
@@ -190,7 +192,6 @@ describe("Styler", function() {
         component2[key] = value;
       }
     });
-    
 
     expect(component2).to.eql({
       width: 100,
