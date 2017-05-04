@@ -100,7 +100,6 @@ describe("Styler", function() {
   });
 
   it("should be required from lib/index", function() {
-    console.log(Styler);
     expect(typeof Styler.styler === "function").to.be.true;
     expect(typeof Styler.componentStyler === "function").to.be.true;
     expect(typeof Styler.extendStyler === "function").to.be.true;
