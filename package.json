@@ -1,6 +1,6 @@
 {
   "name": "@smartface/styler",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "description": "Component styling wrapper",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "test:watch": "mocha --watch --compilers js:babel-core/register ./test/**/*.test.js",
     "build": "babel ./src/ --ignore connectStyler.js --out-dir -d ./lib/.",
     "bump": "bump",
-    "doc:create": "jsdoc -c .jsdoc.json",
+    "docs:create": "jsdoc -c .jsdoc.json",
     "version:i": ". ./.scripts/version.sh",
     "jase": "jase"
   },
