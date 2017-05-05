@@ -17,9 +17,13 @@ if [ -f $NEW_APP_VERSION ] ; then
     echo "no NEW_APP_VERSION found";
 elif [ $exitstatus -ne 1 ]; then
     # back up current
-    cat package.json > package.old.json
+    source=$(cat package.json)
     # change current NEW_APP_VERSION
-    result=$(cat package.json | jase version -s $NEW_APP_VERSION > package2.json);
+    result=$(cat package.json | jase version -s $NEW_APP_VERSION > package2.json || exitstatus=$?);
+    
+    if [ $exitstatus -eq 1 ]; then
+        echo $source > package.json
+    fi
     
     export NEW_APP_VERSION=$NEW_APP_VERSION
     # replace with new one
