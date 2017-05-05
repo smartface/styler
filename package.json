@@ -8,7 +8,12 @@
     "test:watch": "mocha --watch --compilers js:babel-core/register ./test/**/*.test.js",
     "build": "babel ./src/ --ignore connectStyler.js --out-dir -d ./lib/.",
     "docs:create": "jsdox ./src -o docs -r",
-    "version:i": ". ./.scripts/version.sh",
+    "version:rc": ". ./.scripts/version.sh",
+    "version:beta": ". ./.scripts/version.sh",
+    "version:alpha": ". ./.scripts/version.sh",
+    "version:minor": ". ./.scripts/version.sh minor",
+    "version:major": ". ./.scripts/version.sh major",
+    "version:patch": ". ./.scripts/version.sh patch",
     "jase": "jase"
   },
   "repository": {
