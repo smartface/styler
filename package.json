@@ -27,6 +27,9 @@
   "bugs": {
     "url": "https://github.com/smartface/styler/issues"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "homepage": "https://github.com/smartface/styler#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
