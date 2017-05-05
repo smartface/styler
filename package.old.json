@@ -1,6 +1,6 @@
 {
   "name": "@smartface/styler",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-rc.2",
   "description": "Component styling wrapper",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/smartface/styler/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "homepage": "https://github.com/smartface/styler#readme",
   "devDependencies": {
