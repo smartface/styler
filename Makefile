@@ -18,3 +18,6 @@ patch :
 
 tag :
 	. ./.scripts/addTag.sh
+
+removeTag :
+	git tag -d $NEW_APP_VERSION
