@@ -15,9 +15,9 @@ before_deploy:
 - npm run docs:create
 - git add .
 - git commit -m 'Add New version by TravisCI for build $TRAVIS_BUILD_NUMBER'
-- git push -q https://$GHUB_TOKEN@github.com/smartface/styler.git
+- git push -q https://$GHUB_TOKEN@github.com/smartface/styler.git origin master
 - git tag $NEW_APP_VERSION -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-- git push -q https://$GHUB_TOKEN@github.com/smartface/styler.git --tags
+- git push -q https://$GHUB_TOKEN@github.com/smartface/styler.git origin master --tags
 deploy:
   provider: npm
   email: mail@cenkcetinkaya.com
