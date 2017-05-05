@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export NEW_APP_VERSION=$(cat package.json | jase version)
+NEW_APP_VERSION=$(cat package.json | jase version)
 
 type=$1
 exitstatus=0
@@ -20,6 +20,8 @@ elif [ $exitstatus -ne 1 ]; then
     cat package.json > package.old.json
     # change current NEW_APP_VERSION
     result=$(cat package.json | jase version -s $NEW_APP_VERSION > package2.json);
+    
+    export NEW_APP_VERSION=$NEW_APP_VERSION
     # replace with new one
     mv package2.json package.json;
 elif [$exitstatus -ne 0]; then
