@@ -6,6 +6,7 @@ var packageScopes = [
 
 var otherScopes = [
   'META',
+  'CI',
   'examples'
 ];
 
@@ -31,9 +32,7 @@ module.exports = {
     .map(name => ({name})),
 
   scopeOverrides: {
-    chore: [
-      {name: 'META'},
-    ],
+    chore: otherScopes,
     feat: packageScopes,
     fix: packageScopes,
     release: packageScopes,

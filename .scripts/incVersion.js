@@ -47,13 +47,13 @@ if(argv.minor){
 
 var version = argv.version;
 
-if (version.indexOf("-rc") > -1) {
+if (version && version.indexOf("-rc") > -1) {
   preId = "rc";
 }
-else if (version.indexOf("-beta") > -1) {
+else if (version && version.indexOf("-beta") > -1) {
   preId = "beta";
 }
-else if (version.indexOf("-alpha") > -1) {
+else if (version && version.indexOf("-alpha") > -1) {
   preId = "alpha";
 }
 
