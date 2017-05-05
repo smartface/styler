@@ -34,7 +34,7 @@ module.exports = {
   scopeOverrides: {
     chore: otherScopes,
     feat: packageScopes,
-    fix: packageScopes,
+    fix: packageScopes.concat(["CI"]),
     release: packageScopes,
     test: packageScopes,
   },

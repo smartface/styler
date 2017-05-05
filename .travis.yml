@@ -15,7 +15,7 @@ before_deploy:
   - . ./.scripts/version.sh
   - export GIT_TAG=$NEW_APP_VERSION
   - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-  - git push -q https://$TAGPERM@github.com/smartface/styler --tags
+  - git push --tags
 deploy:
   provider: npm
   email: mail@cenkcetinkaya.com
