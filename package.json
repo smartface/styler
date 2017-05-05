@@ -7,8 +7,7 @@
     "test": "mocha --compilers js:babel-core/register ./test/**/*.test.js",
     "test:watch": "mocha --watch --compilers js:babel-core/register ./test/**/*.test.js",
     "build": "babel ./src/ --ignore connectStyler.js --out-dir -d ./lib/.",
-    "bump": "bump",
-    "docs:create": "jsdoc -c .jsdoc.json",
+    "docs:create": "jsdox ./src -o docs -r",
     "version:i": ". ./.scripts/version.sh",
     "jase": "jase"
   },

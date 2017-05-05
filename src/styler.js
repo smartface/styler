@@ -6,8 +6,6 @@ import mapStyles from "./utils/mapStyles";
  * Styling Wrapper
  * 
  * @example
- * ### For Example:
- * ```js
  *  const styler = require("@smartface/styler").styler or require("@smartface/styler/lib/styler");
  *  const styles = {
  *      ".button"{
@@ -35,7 +33,6 @@ import mapStyles from "./utils/mapStyles";
  *    redButtonStyle[key] = value;
  *  });
  *  // redButtonStyle equals to {width: "100px", height: "20px", color: "red"}
- * ```
  * 
  * @param {Object} - style Styles Object
  * @returns style scoped function
