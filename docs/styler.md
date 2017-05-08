@@ -12,15 +12,13 @@ Styling Wrapper
 
 **Parameters**
 
-**style**: `Object`, style Styles Object
+**style**: `Object`, Styles Object
 
-**Returns**: , style scoped function
+**Returns**: `function`, - Styling composer
 
 **Example**:
 ```js
-### For Example:
-```js
- const styler = require("@smartface/styler").styler or require("@smartface/styler/lib/styler");
+const styler = require("@smartface/styler").styler or require("@smartface/styler/lib/styler");
  const styles = {
      ".button"{
        widht: "100px",
@@ -47,7 +45,6 @@ Styling Wrapper
    redButtonStyle[key] = value;
  });
  // redButtonStyle equals to {width: "100px", height: "20px", color: "red"}
-```
 ```
 
 

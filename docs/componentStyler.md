@@ -8,11 +8,13 @@
 
 ### exports() 
 
-Component styling wrapper
+Component High Order Styler function. Gets styles from styler then assigns them to given object or component.
 
-Example:
+**Returns**: `function`, - Styling composer
+
+**Example**:
 ```js
- ...
+...
 
  var componentStyle = componentStyler(style)(className);
  var comps = [comp1, comp2];
@@ -22,7 +24,6 @@ or
 
 ...
 ```
-
 
 
 
