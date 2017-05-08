@@ -59,6 +59,11 @@ describe("Styler", function() {
             font: {
               bold: true
             }
+          },
+          ".italic": {
+            font: {
+              bold: true
+            }
           }
         }
       }
@@ -86,11 +91,62 @@ describe("Styler", function() {
           size: "16"
         },
         ".blue":{
-          "&element":{
-            fillColor: "black",
-            font: {
-              size: "12dp"
-            }
+          fillColor: "black",
+          font: {
+            size: "12dp"
+          }
+        },
+        ".red":{
+          fillColor: "black",
+          font: {
+            size: "12dp"
+          }
+        }
+      }
+    };
+    
+    var styleWithNestedShotcut = {
+      ".button": {
+        width: 100,
+        height: 200,
+        ".red": {
+          color: "red1",
+        }
+      },
+      ".label": {
+        ".button": {
+          width: 300,
+          height: 400,
+          ".red":{
+            color: "red2",
+          }
+        },
+      },
+      ".label": {
+        ".text-16":{
+          font: {
+            size: "16"
+          },
+        },
+        "&-button": {
+          width: 300,
+          height: 400,
+          "&-red":{
+            color: "red"
+          },
+          "&-red2":{
+            color: "red2"
+          }
+        },
+      },
+      ".text-16":{
+        font: {
+          size: "16"
+        },
+        "&-blue":{
+          fillColor: "black",
+          font: {
+            size: "12dp"
           }
         }
       }
@@ -230,4 +286,32 @@ describe("Styler", function() {
       }
     });
   });
+/*
+  it("should parse parenting shortcut and pass element styles to callback2", function() {
+    const styling = styler(styleWithNestedShotcut);
+    var component = {};
+    
+    styling(".text-16.text-16-blue")(function(className, key, value) {
+      component[key] = value;
+    });
+    
+    expect(component).to.eql({
+      fillColor: "black",
+      font: {
+        size: "12dp"
+      }
+    });
+  });
+  it("should parse nested parenting shortcut and pass element styles to callback2", function() {
+    const styling = styler(styleWithNestedShotcut);
+    var component = {};
+    
+    styling(".label-button-red")(function(className, key, value) {
+      component[key] = value;
+    });
+    
+    expect(component).to.eql({
+      color: "red"
+    });
+  });*/
 });

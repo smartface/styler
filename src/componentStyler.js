@@ -1,10 +1,12 @@
-import {styleAssignAndClone} from "./utils/styleAssign";
+import {
+  styleAssignAndClone
+}
+from "./utils/styleAssign";
 
 /**
- * Component styling wrapper
+ * Component High Order Styler function. Gets styles from styler then assigns them to given object or component.
  * 
- * Example:
- * ```js
+ * @example
  *  ...
  * 
  *  var componentStyle = componentStyler(style)(className);
@@ -14,18 +16,31 @@ import {styleAssignAndClone} from "./utils/styleAssign";
  *  componentStyle(component);
  * 
  * ...
- * ```
- * @params {object} style Styles object
  * 
+ * @params {Function} styler - Styles object
+ * @returns {Function} - Styling composer 
  */
 export default function componentStyler(styler) {
+
+  /**
+   * Styling composer
+   * 
+   * @param {String} classNames - Class names of desired styles
+   */
   return function(className) {
+
+    /**
+     * Assigns styles to component
+     * 
+     * @param {Object} component - Assingee component
+     */
     return function(component) {
       styler(className)(function(cName, key, value) {
-        if(typeof component === "object") {
+        if (typeof component === "object") {
           styleAssignAndClone(component, key, value);
-        } else {
-          throw "[Component :"+component+", ClassName: "+cName+"] style cannot be assigned.";
+        }
+        else {
+          throw "[Component :" + component + ", ClassName: " + cName + "] style cannot be assigned.";
         }
       });
     };

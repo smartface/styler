@@ -1,3 +1,10 @@
+/**
+ * @copyright (c) 2017 Smartface.io
+ * @license MIT
+ * @author Cenk Cetinkaya
+ * @version  1.0.0
+*/
+
 import cloneStyle from "./utils/cloneStyle";
 import findClassNames from "./utils/findClassNames";
 import mapStyles from "./utils/mapStyles";
@@ -34,22 +41,23 @@ import mapStyles from "./utils/mapStyles";
  *  });
  *  // redButtonStyle equals to {width: "100px", height: "20px", color: "red"}
  * 
- * @param {Object} - style Styles Object
- * @returns style scoped function
+ * @param {Object} style - Styles Object
+ * @returns {Function} - Styling composer
  */
 export default function styler(style) {
+
   /**
    * Styling composer
    * 
-   * @param {String} classNames
+   * @param {String} classNames - Class names of desired styles
    */
   return function (classNames) {
     const parsedClassNames = findClassNames(classNames);
 
     /**
-     * Styling map
+     * Styles mapping
      * 
-     * @param {Function} - fn
+     * @param {Function} fn - Mapping callback function
      */
     return function (fn) {
       parsedClassNames.forEach((classNm) => {

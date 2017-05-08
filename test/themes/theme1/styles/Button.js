@@ -1,17 +1,17 @@
 module.exports = {
   ".button": {
-    ".button-small": {
+    "&-small": {
       position: "relative",
       maxWidth: 100,
       display: "table",
       tableLayout: "fixed"
     },
-    ".button-medium": {},
-    ".button-large": {},
+    "&-medium": {},
+    "&-large": {},
     // Highlights
-    ".button-warning": {},
-    ".button-danger": {},
-    ".button-error": {},
-    ".button-success": {},
+    "&-warning": {},
+    "&-danger": {},
+    "&-error": {},
+    "&-success": {},
   }
 };
