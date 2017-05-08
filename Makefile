@@ -1,20 +1,20 @@
 rc :
-	. ./.scripts/version.sh
+	. ./.scripts/updateVersion.sh
 
 beta :
-	.scripts/version.sh
+	.scripts/updateVersion.sh
 
 alpha :
-	.scripts/version.sh
+	.scripts/updateVersion.sh
 
 minor :
-	.scripts/version.sh minor
+	.scripts/updateVersion.sh minor
 
 major :
-	.scripts/version.sh major
+	.scripts/updateVersion.sh major
 
 patch :
-	.scripts/version.sh patch
+	.scripts/updateVersion.sh patch
 
 tag :
 	. ./.scripts/addTag.sh
