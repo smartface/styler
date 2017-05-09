@@ -40,7 +40,7 @@ export default function memoizeStyler(styler) {
         .forEach(key => fn(className, key, style[key]));
       
       return function removeFromMemory(all=false) {
-        if(all){
+        if(all) {
           memory = {};
         } else {
           delete memory[className];

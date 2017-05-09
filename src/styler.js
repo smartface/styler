@@ -8,9 +8,10 @@
 import cloneStyle from "./utils/cloneStyle";
 import findClassNames from "./utils/findClassNames";
 import mapStyles from "./utils/mapStyles";
+import flatStyles from "./flatStyles";
 
 /**
- * Styling Wrapper
+ * Styling Wrapper. In order to return desired styles, composes styling functions.
  * 
  * @example
  *  const styler = require("@smartface/styler").styler or require("@smartface/styler/lib/styler");
@@ -45,29 +46,28 @@ import mapStyles from "./utils/mapStyles";
  * @returns {Function} - Styling composer
  */
 export default function styler(style) {
-
+  const denormalizedStyles = flatStyles(style);
+  
   /**
    * Styling composer
    * 
    * @param {String} classNames - Class names of desired styles
    */
   return function (classNames) {
-    const parsedClassNames = findClassNames(classNames);
-
+    const parsedClassNames = findClassNames(classNames).map((classNm) => classNm.join(""));
+    
     /**
      * Styles mapping
      * 
      * @param {Function} fn - Mapping callback function
      */
     return function (fn) {
-      parsedClassNames.forEach((classNm) => {
-        mapStyles(
-          style,
-          classNm,
-          (className, key, value) => {
-            fn(className, key, cloneStyle(value));
-          });
-      });
+      mapStyles(
+        denormalizedStyles,
+        parsedClassNames,
+        (className, key, value) => {
+          fn(className, key, cloneStyle(value));
+        });
     };
   };
 }

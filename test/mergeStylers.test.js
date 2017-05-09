@@ -14,7 +14,7 @@ import {expect} from "chai";
 // const resetStylerCache = require("../src/styler").resetStylerCache;
 // const componentStyler = require("../src/styler").componentStyler;
 
-describe("Merge Styles", function() {
+describe("Merge Stylers", function() {
     var style1 = {
       ".button": {
         width: 100,

@@ -121,8 +121,6 @@ describe("Styler", function() {
             color: "red2",
           }
         },
-      },
-      ".label": {
         ".text-16":{
           font: {
             size: "16"
@@ -197,7 +195,8 @@ describe("Styler", function() {
     };
     
     componentStyler(styler(style4))(".label.button.red")(component3);
-    
+    // styler(style4)(".label.button.red")(console.log)
+    // console.log(component3);
     expect(component3).to.eql({
       width: 300,
       height: 400,

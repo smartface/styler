@@ -1,3 +1,8 @@
+/**
+ * Create deep clone of given style object
+ * 
+ * @param {Object} style
+ */
 export default function cloneStyle(style) {
   if (typeof style !== "object")
     return style;

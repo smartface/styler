@@ -11,7 +11,7 @@ import {styleAssignAndClone} from "./utils/styleAssign";
  * const styler3 = styler(styles3);
  * 
  * const mergedStyler = mergeStyler(styler1, styler2, styler3);
- * const styles = mergeStyler(".button.small .button.warning");
+ * const styles = mergedStyler(".button.small .button.warning");
  * 
  * styles(function(className, key, value){
  *  ...
@@ -19,7 +19,7 @@ import {styleAssignAndClone} from "./utils/styleAssign";
  * });
  * 
  * @param {Function} - Styler
- * @returns {Function} 
+ * @returns {Function}
  */
 export default function mergeStylers() {
   const stylers = Array.prototype.slice.call(arguments);

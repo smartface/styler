@@ -2,7 +2,7 @@ const mapStyles = function (style, classNames, fn) {
   const classNamesCopy = classNames.slice();
   const className = classNamesCopy.shift();
   let parent = "";
-  
+
   if (Array.isArray(className)) {
     mapStyles(style, className, fn);
   } else if (typeof style[className] === 'object' && classNamesCopy) {
@@ -15,7 +15,7 @@ const mapStyles = function (style, classNames, fn) {
         } else if (key.charAt(0) === '&') {
           let withParentKey = parent + key.slice(1);
           style[withParentKey][withParentKey] = style[className][key];
-          // fn(className, withParentKey, style[className][withParentKey]);
+          
           delete style[className][key];
         }
       });
