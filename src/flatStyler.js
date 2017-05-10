@@ -3,17 +3,18 @@
  * @license MIT
  * @author Cenk Cetinkaya
  * @version  1.0.0
-*/
+ */
 
 import cloneStyle from "./utils/cloneStyle";
 import findClassNames from "./utils/findClassNames";
-import mapStyles from "./utils/mapStyles";
-
+import mapStyles from "./utils/flatMapStyles";
+import flatStyles from "./flatStyles";
+import merge from "./utils/merge";
 /**
- * Styling Wrapper. In order to return desired styles, composes styling functions.
+ * Styling Wrapper. In order to return desired styles. Makes styles flatted then merge all by classNames then pass merged styles to callback.
  * 
  * @example
- *  const styler = require("@smartface/styler").styler or require("@smartface/styler/lib/styler");
+ *  const styler = require("@smartface/styler").flatStyler or require("@smartface/styler/lib/flatStyler");
  *  const styles = {
  *      ".button"{
  *        widht: "100px",
@@ -45,29 +46,35 @@ import mapStyles from "./utils/mapStyles";
  * @returns {Function} - Styling composer
  */
 export default function styler(style) {
+  const denormalizedStyles = flatStyles(style);
 
   /**
    * Styling composer
    * 
    * @param {String} classNames - Class names of desired styles
    */
-  return function (classNames) {
-    const parsedClassNames = findClassNames(classNames);
+  return function(classNames) {
+    const parsedClassNames = findClassNames(classNames).map((classNm) => classNm.join(""));
 
     /**
      * Styles mapping
      * 
      * @param {Function} fn - Mapping callback function
      */
-    return function (fn) {
-      parsedClassNames.forEach((classNm) => {
-        mapStyles(
-          style,
-          classNm,
-          (className, key, value) => {
-            fn(className, key, cloneStyle(value));
-          });
+    return function(fn) {
+      const styles = [];
+      
+      parsedClassNames.forEach((className) => {
+        styles.push(denormalizedStyles[className]);
       });
+
+      var mergedStyle = merge.apply(null, styles);
+      
+      Object.keys(mergedStyle).forEach((key) => {
+        fn(classNames, key, mergedStyle[key]);
+      });
+      
+      mergedStyle = null;
     };
   };
 }

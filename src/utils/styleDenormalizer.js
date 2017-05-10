@@ -14,9 +14,6 @@ export default function styleDenormalizer(styles) {
 
       if (skey.charAt(0) !== '@' && skey.charAt(0) !== '.' && skey.charAt(0) !== '&') { // current's not a className or a parenting shortcut or a command
         denormalizedStyles[parent+newKey] = denormalizedStyles[parent+newKey] || {};
-        // console.log("<----------------------");
-        // console.log(denormalizedStyles, parent);
-        // console.log("---------------------->");
         
         // current is className then merge with parent
         if(parent && denormalizedStyles[parent] && key.charAt(0) === '.') {

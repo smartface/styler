@@ -25,7 +25,7 @@ const styler2 = styler(styles2);
 const styler3 = styler(styles3);
 
 const mergedStyler = mergeStyler(styler1, styler2, styler3);
-const styles = mergeStyler(".button.small .button.warning");
+const styles = mergedStyler(".button.small .button.warning");
 
 styles(function(className, key, value){
  ...

@@ -2,7 +2,7 @@ const mapStyles = function (style, classNames, fn) {
   const classNamesCopy = classNames.slice();
   const className = classNamesCopy.shift();
   let parent = "";
-
+  
   if (Array.isArray(className)) {
     mapStyles(style, className, fn);
   } else if (typeof style[className] === 'object' && classNamesCopy) {

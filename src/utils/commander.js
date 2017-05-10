@@ -5,24 +5,13 @@ import {
 from "./styleAssign";
 import cloneStyle from "./cloneStyle";
 import findClassNames from "./findClassNames";
+import merge from "./merge";
 
 function extend(styles, className, extendFrom) {
   let targetValue = styles;
-  styles[className];
+  styles[className] = merge(styles[className], styles[extendFrom]);
 
-  // targetClasses.forEach(classNameArr => {
-  //   classNameArr.forEach(className => {
-  //     targetValue = targetValue[className];
-  //   });
-  // });
-
-  // delete style[subKey];
-  // console.log("targetValue----");
-  // console.log(targetValue);
-  // console.log("-----targetValue");
-  // Object.assign(style, targetValue);
-
-  return style;
+  return styles;
 }
 
 function findCommnand(key) {

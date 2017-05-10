@@ -8,7 +8,7 @@
 
 ### exports(style) 
 
-Styling Wrapper. In order to return desired styles, composes styling functions.
+Styling Wrapper. In order to return desired styles. Makes styles flatted then merge all by classNames then pass merged styles to callback.
 
 **Parameters**
 
@@ -18,7 +18,7 @@ Styling Wrapper. In order to return desired styles, composes styling functions.
 
 **Example**:
 ```js
-const styler = require("@smartface/styler").styler or require("@smartface/styler/lib/styler");
+const styler = require("@smartface/styler").flatStyler or require("@smartface/styler/lib/flatStyler");
  const styles = {
      ".button"{
        widht: "100px",
