@@ -1,4 +1,4 @@
-import styleNormalizer from "../src/utils/styleDenormalizer";
+import styleDenormalizer from "../src/utils/styleDenormalizer";
 import commander from "../src/utils/commander";
 import {expect} from "chai";
 
@@ -45,7 +45,7 @@ const styleWithNestedShortcuts = {
 
 describe("Denormalize Styles", function() {
   it("should return flatted style and commmands", function() {
-    const res = styleNormalizer(styleWithNestedShortcuts);
+    const res = styleDenormalizer(styleWithNestedShortcuts);
     
     expect(res.styles).to.be.eql(
     { 
@@ -64,7 +64,7 @@ describe("Denormalize Styles", function() {
   });
   
   it("should add styles of the extended className", function() {
-    const res = styleNormalizer(styleWithNestedShortcuts);
+    const res = styleDenormalizer(styleWithNestedShortcuts);
     commander(res.styles, res.commands);
     
     expect(res.styles).to.be.eql(

@@ -1,26 +1,22 @@
-import basicMerge from "./basicMerge";
+function isObj(val){
+  return typeof val === "object";
+}
 
-export function basicMerge(objects) {
-  var out = {};
-
-  for (var i = 0; i < objects.length; i++) {
-    for (var p in objects[i]) {
-      out[p] = objects[i][p];
-    }
+function recurse(acc, obj){
+  const output = {};
+  
+  for (var p in obj) {
+    acc[p] = acc[p] || {};
+    acc[p] = isObj(obj[p]) ? recurse(acc[p], obj[p]) : obj[p];
   }
-
-  return out;
+  
+  return acc;
 }
-
-function recurse(){
-}
-
 
 export default function deepMerge() {
   var args = Array.prototype.slice.call(arguments);
   
-  args.reduce((acc, curr) => {
-    curr.forEach()
-    
-  }, {})
+  return args.reduce((acc, curr) => {
+    return recurse(acc, curr);
+  }, {});
 }
