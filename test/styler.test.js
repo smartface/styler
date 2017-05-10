@@ -159,6 +159,7 @@ describe("Styler", function() {
     expect(typeof Styler.extendStyler === "function").to.be.true;
     expect(typeof Styler.themeStyler === "function").to.be.true;
     expect(typeof Styler.memoizeStyler === "function").to.be.true;
+    expect(typeof Styler.flatStyler === "function").to.be.true;
   });
   
   it("should parse classNames from formatted string", function() {
