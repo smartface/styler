@@ -45,8 +45,14 @@ import merge from "./utils/merge";
  * @param {Object} style - Styles Object
  * @returns {Function} - Styling composer
  */
-export default function styler(style) {
-  const denormalizedStyles = flatStyles(style);
+export default function styler() {
+  const styles = {};
+  
+  Array.prototype.forEach.call(arguments, (style) => {
+    Object.assign(styles, style);
+  });
+  
+  const denormalizedStyles = flatStyles(styles);
 
   /**
    * Styling composer
@@ -57,24 +63,29 @@ export default function styler(style) {
     const parsedClassNames = findClassNames(classNames).map((classNm) => classNm.join(""));
 
     /**
-     * Styles mapping
+     * Styles mapping. If pass a function then return styles to the funtion or null then return style object.
      * 
-     * @param {Function} fn - Mapping callback function
+     * @param {Function | null} fn - Mapping callback function
      */
-    return function(fn) {
+    return function(fn=null) {
       const styles = [];
       
       parsedClassNames.forEach((className) => {
         styles.push(denormalizedStyles[className]);
       });
 
-      var mergedStyle = merge.apply(null, styles);
+      let mergedStyle = merge.apply(null, styles);
       
-      Object.keys(mergedStyle).forEach((key) => {
-        fn(classNames, key, mergedStyle[key]);
-      });
+      if(fn){
+        let result = {};
+        Object.keys(mergedStyle).forEach((key) => {
+          result[key] = fn(classNames, key, mergedStyle[key]);
+        });
+        
+        return result;
+      }
       
-      mergedStyle = null;
+      return mergedStyle;
     };
   };
 }

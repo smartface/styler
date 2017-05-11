@@ -2,8 +2,6 @@ import { styleAssignAndClone } from "./utils/styleAssign";
 
 export default (styler) => {
   return (theme) => {
-    
-    
     return (className) => {
       const styling = styler(className);
       var styles = {};

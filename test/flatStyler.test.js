@@ -2,7 +2,7 @@
  * Created by smartface on 10/18/16.
  */
 
-import styler from "../src/flatStyler";
+import flatStyler from "../src/flatStyler";
 import findClassNames from "../src/utils/findClassNames";
 import componentStyler from "../src/componentStyler";
 import {expect} from "chai";
@@ -153,6 +153,11 @@ describe("FlatStyler", function() {
   beforeEach(function() {
   });
 
+  it("should be able to take many styles as arguments and merge them", function() {
+    const styler = flatStyler(style1, style2, style3);
+    expect(typeof Styler.styler === "function").to.be.true;
+  });
+  
   it("should be required from lib/index", function() {
     expect(typeof Styler.styler === "function").to.be.true;
     expect(typeof Styler.componentStyler === "function").to.be.true;
@@ -194,8 +199,8 @@ describe("FlatStyler", function() {
       }
     };
     
-    componentStyler(styler(style4))(".label.button.red")(component3);
-    // styler(style4)(".label.button.red")(console.log)
+    componentStyler(flatStyler(style4))(".label.button.red")(component3);
+    // flatStyler(style4)(".label.button.red")(console.log)
     // console.log(component3);
     expect(component3).to.eql({
       width: 300,
@@ -207,7 +212,7 @@ describe("FlatStyler", function() {
       }
     });
     
-    const styling = styler(style3);
+    const styling = flatStyler(style3);
     styling(".button.red")(function(className, key, value) {
       component[key] = value;
     });
@@ -261,7 +266,7 @@ describe("FlatStyler", function() {
   });
   
   it("should pass element styles to callback", function() {
-    const styling = styler(style4);
+    const styling = flatStyler(style4);
     const component = {};
     const output = { font: { size: '12dp' }, fillColor: 'black' };
     
@@ -273,7 +278,7 @@ describe("FlatStyler", function() {
   });
 
   it("should pass element styles to callback2", function() {
-    const styling = styler(style4);
+    const styling = flatStyler(style4);
     var component = {};
     
     styling(".text-16.blue")(function(className, key, value) {
@@ -287,32 +292,4 @@ describe("FlatStyler", function() {
       }
     });
   });
-/*
-  it("should parse parenting shortcut and pass element styles to callback2", function() {
-    const styling = styler(styleWithNestedShotcut);
-    var component = {};
-    
-    styling(".text-16.text-16-blue")(function(className, key, value) {
-      component[key] = value;
-    });
-    
-    expect(component).to.eql({
-      fillColor: "black",
-      font: {
-        size: "12dp"
-      }
-    });
-  });
-  it("should parse nested parenting shortcut and pass element styles to callback2", function() {
-    const styling = styler(styleWithNestedShotcut);
-    var component = {};
-    
-    styling(".label-button-red")(function(className, key, value) {
-      component[key] = value;
-    });
-    
-    expect(component).to.eql({
-      color: "red"
-    });
-  });*/
 });
