@@ -45,7 +45,7 @@ import merge from "./utils/merge";
  * @param {Object} style - Styles Object
  * @returns {Function} - Styling composer
  */
-export default function styler() {
+export default function flatStyler() {
   const styles = {};
   
   Array.prototype.forEach.call(arguments, (style) => {
