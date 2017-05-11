@@ -158,6 +158,11 @@ describe("FlatStyler", function() {
     expect(typeof Styler.styler === "function").to.be.true;
   });
   
+  it("should return styles if not to be passed a map function", function() {
+    const styler = flatStyler(style1);
+    expect(typeof styler(".button")() === "object").to.be.true;
+  });
+  
   it("should be required from lib/index", function() {
     expect(typeof Styler.styler === "function").to.be.true;
     expect(typeof Styler.componentStyler === "function").to.be.true;
@@ -232,8 +237,6 @@ describe("FlatStyler", function() {
         component[key] = value;
       }
     });
-    
-    console.log(component);
     
     expect(component)
       .to.eql({

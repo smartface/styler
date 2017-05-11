@@ -8,17 +8,16 @@ cache:
   directories:
   - node_modules
 script: npm test
-# before_deploy:
-# - git config --global user.email "builds@travis-ci.com"
-# - git config --global user.name "Travis CI"
-# - ". ./.scripts/version.sh"
-# - npm run docs:create
-# - git fetch
-# - git add .
-# - git commit -m "Add New version by TravisCI for build $TRAVIS_BUILD_NUMBER"
-# - git push origin master -q https://$GHUB_TOKEN@github.com/smartface/styler.git
-# - git tag $NEW_APP_VERSION -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-# - git push origin master -q https://$GHUB_TOKEN@github.com/smartface/styler.git --tags
+before_deploy:
+- npm run docs:create
+- npm run build
+after_deploy:
+- git config --global user.email "builds@travis-ci.com"
+- git config --global user.name "Travis CI"
+- ". ./.scripts/version.sh"
+- git add .
+- git commit -m "Add New version built by TravisCI for build $TRAVIS_BUILD_NUMBER"
+- git push origin master -q https://$GHUB_TOKEN@github.com/smartface/styler.git
 deploy:
   provider: npm
   email: mail@cenkcetinkaya.com
