@@ -29,8 +29,8 @@ elif [ $exitstatus -ne 1 ]; then
     # replace with new one
     mv package2.json package.json;
     git add .
-    git tag v$NEW_APP_VERSION || $exitstatus=$?;
     git commit -m "release(styler): v$NEW_APP_VERSION" || $exitstatus=$?;
+    git tag v$NEW_APP_VERSION || $exitstatus=$?;
 elif [$exitstatus -ne 0]; then
     break;
     exit $exitstatus
