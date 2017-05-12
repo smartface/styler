@@ -1,3 +1,5 @@
+.PHONY: rc beta alpha minor major patch tag removeTag
+
 rc :
 	. ./.scripts/updateVersion.sh
 

@@ -55,8 +55,8 @@
       "path": "./node_modules/cz-customizable"
     },
     "cz-customizable": {
+      "path": "./node_modules/cz-conventional-changelog",
       "config": "./.cz-config.js"
     }
-  },
-  "NEW_APP_VERSION": "1.0.0-rc.4"
+  }
 }
