@@ -79,7 +79,6 @@ const basicStyle2 = {
   },
 };
 
-
 describe("Merging Styles", function() {
   it("should create deeply copy of style", function() {
     const basicStyle1 = {

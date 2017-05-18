@@ -2,7 +2,7 @@
  * @copyright (c) 2017 Smartface.io
  * @license MIT
  * @author Cenk Cetinkaya
- * @version  1.0.0
+ * @version  1.0.8
 */
 
 import cloneStyle from "./utils/cloneStyle";

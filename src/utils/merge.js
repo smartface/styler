@@ -1,18 +1,25 @@
 function isObj(val){
-  return typeof val === "object";
+  return val !== null && typeof val === "object";
 }
 
-function recurse(acc, obj){
+function hasProp(target, prop) {
+  return Object.prototype.hasOwnProperty.call(target, prop);
+}
+
+function recurse(acc, obj) {
   for (var p in obj) {
-    acc[p] = isObj(obj[p]) ? recurse(acc[p] || {}, obj[p]) : obj[p];
+    acc[p] = isObj(obj[p])
+      ? recurse(hasProp(acc, p) ? acc[p] : {}, obj[p])
+      : obj[p];
   }
   
   return acc;
 }
 
 /**
- * Creates deep copy and given merge objects
+ * Creates a deeply merged copy of the specified objects
  * 
+ * @returns {Object}
  */
 export default function deepMerge() {
   let acc = {};

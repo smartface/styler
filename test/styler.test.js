@@ -104,7 +104,7 @@ describe("Styler", function() {
         }
       }
     };
-    
+
     var styleWithNestedShotcut = {
       ".button": {
         width: 100,
@@ -153,7 +153,7 @@ describe("Styler", function() {
   beforeEach(function() {
   });
 
-  it("should be required from lib/index", function() {
+  it("should be required from index.js", function() {
     expect(typeof Styler.styler === "function").to.be.true;
     expect(typeof Styler.componentStyler === "function").to.be.true;
     expect(typeof Styler.extendStyler === "function").to.be.true;

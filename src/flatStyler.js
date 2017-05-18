@@ -63,7 +63,7 @@ export default function flatStyler() {
     const parsedClassNames = findClassNames(classNames).map((classNm) => classNm.join(""));
 
     /**
-     * Styles mapping. If pass a function then return styles to the funtion or null then return style object.
+     * Styles mapper. If passed a function as the argument then return styles to the funtion or null then return style object.
      * 
      * @param {Function | null} fn - Mapping callback function
      */
