@@ -1,6 +1,6 @@
 {
   "name": "@smartface/styler",
-  "version": "1.0.9",
+  "version": "1.0.8",
   "description": "Component styling wrapper",
   "main": "index.js",
   "scripts": {
