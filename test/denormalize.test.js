@@ -4,6 +4,13 @@ import commander from "../src/utils/commander";
 import {expect} from "chai";
 
 const styleWithNestedShortcuts = {
+      "#button": {
+        width: 100,
+        height: 200,
+        ".red": {
+          color: "red1",
+        }
+      },
       ".button": {
         width: 100,
         height: 200,
@@ -47,12 +54,13 @@ const styleWithNestedShortcuts = {
 describe("Denormalize Styles", function() {
   it("should return flatted style and commmands", function() {
     const res = styleDenormalizer(styleWithNestedShortcuts);
-    
     // userProps
     // className = ".button.red .label .text
     
     expect(res.styles).to.be.eql(
     { 
+      '#button': { width: 100, height: 200 },
+      '#button.red': { width: 100, height: 200, color: 'red1' },
       '.button': { width: 100, height: 200 },
       '.button.red': { width: 100, height: 200, color: 'red1' },
       '.label': {text: "label", width: 101},
@@ -73,6 +81,8 @@ describe("Denormalize Styles", function() {
     
     expect(res.styles).to.be.eql(
     {
+      '#button': { width: 100, height: 200 },
+      '#button.red': { width: 100, height: 200, color: 'red1' },
       '.button': { width: 100, height: 200 },
       '.button.red': { width: 100, height: 200, color: 'red1' },
       '.label': {text: "label", width: 101},
