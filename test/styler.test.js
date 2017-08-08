@@ -163,6 +163,7 @@ describe("Styler", function() {
   });
   
   it("should parse classNames from formatted string", function() {
+    expect(findClassNames("#button#red .layout#left #left #left.blue")).to.eql([['#button', '#red' ], [ '.layout', '#left' ], ["#left"], ["#left", ".blue"]]);
     expect(findClassNames(".button.red .layout.left")).to.eql([['.button', '.red' ], [ '.layout', '.left' ]]);
     expect(findClassNames(".button .red   .layout.left")).to.eql([['.button'], ['.red' ], [ '.layout', '.left' ]]);
     expect(findClassNames(".button .red .label.button.red   .layout.left")).to.eql([['.button'], ['.red' ], [ '.label', '.button', '.red'], [ '.layout', '.left' ]]);

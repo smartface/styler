@@ -1,7 +1,7 @@
 import {CLASSNAME, ID, CHILD_CLASS, COMMAND} from "./constants";
 
 const findClassNames = (function findClassNames() {
-  const classesRegExp = /[\.\#]?([a-zA-Z\W0-9][^.#]*)/g;
+  const classesRegExp = /[\.\#]?([a-zA-Z\W0-9][^\.^\#]*)/g;
   const cache = {};
   
   return function styleSelector(selector) {
