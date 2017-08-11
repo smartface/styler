@@ -8,7 +8,7 @@
 
 ### exports(style) 
 
-Styling Wrapper. In order to return desired styles, composes styling functions.
+Styling Wrapper. In order to return desired styles. Makes styles flatted then merge all by classNames then pass merged styles to callback.
 
 **Parameters**
 

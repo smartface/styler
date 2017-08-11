@@ -3,7 +3,7 @@ import merge from "./merge";
 
 import {CLASSNAME, ID, CHILD_CLASS, COMMAND} from "./constants";
 
-export default function styleDenormalizer(styles) {
+function flat(styles){
   const denormalizedStyles = {};
   const commands = {};
 
@@ -51,5 +51,14 @@ export default function styleDenormalizer(styles) {
   return {
     styles: denormalizedStyles,
     commands
-  };
+  }
+}
+
+function flatStyles(styles){
+  return styles.map(style => flat(style));
+}
+
+export default function styleDenormalizer() {
+  const styles = Array.prototype.slice.call(arguments);
+  return flatStyles(styles);
 };

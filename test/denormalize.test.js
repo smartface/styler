@@ -52,13 +52,12 @@ const styleWithNestedShortcuts = {
     };
 
 describe("Denormalize Styles", function() {
-  it("should return flatted style and commmands", function() {
+  it("should build style shortcuts and commmands", function() {
     const res = styleDenormalizer(styleWithNestedShortcuts);
     // userProps
     // className = ".button.red .label .text
-    
-    expect(res.styles).to.be.eql(
-    { 
+    expect(res[0].styles).to.be.eql(
+    {
       '#button': { width: 100, height: 200 },
       '#button.red': { width: 100, height: 200, color: 'red1' },
       '.button': { width: 100, height: 200 },
@@ -72,14 +71,14 @@ describe("Denormalize Styles", function() {
       '.text-16-blue': { fillColor: "black", font: {size: "12dp"} } 
     });
 
-    expect(res.commands).to.be.eql({'@extend': [{ className: ".text-16", value: ".label" }]});
+    expect(res[0].commands).to.be.eql({'@extend': [{ className: ".text-16", value: ".label" }]});
   });
   
   it("should be able to be extended from a className", function() {
     const res = styleDenormalizer(styleWithNestedShortcuts);
-    commander(res.styles, res.commands);
+    commander(res[0].styles, res[0].commands);
     
-    expect(res.styles).to.be.eql(
+    expect(res[0].styles).to.be.eql(
     {
       '#button': { width: 100, height: 200 },
       '#button.red': { width: 100, height: 200, color: 'red1' },
@@ -94,7 +93,7 @@ describe("Denormalize Styles", function() {
       '.text-16-blue': { fillColor: "black", font: {size: "12dp"} }
     });
 
-    expect(res.commands).to.be.eql({'@extend': [{ className: ".text-16", value: ".label" }]});
+    expect(res[0].commands).to.be.eql({'@extend': [{ className: ".text-16", value: ".label" }]});
   });
   
   it("should be able to merge null value as null", function() {

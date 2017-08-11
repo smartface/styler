@@ -1,10 +1,3 @@
-import styleDenormalizer from "./utils/styleDenormalizer";
-import commander from "./utils/commander";
+import builder from "./buildStyles";
 
-export default function flatStyles(rawStyles) {
-  let res = styleDenormalizer(rawStyles);
-
-  commander(res.styles, res.commands);
-  
-  return res.styles;
-}
+export default builder;

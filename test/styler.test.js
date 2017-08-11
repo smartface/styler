@@ -162,13 +162,6 @@ describe("Styler", function() {
     expect(typeof Styler.flatStyler === "function").to.be.true;
   });
   
-  it("should parse classNames from formatted string", function() {
-    expect(findClassNames("#button#red .layout#left #left #left.blue")).to.eql([['#button', '#red' ], [ '.layout', '#left' ], ["#left"], ["#left", ".blue"]]);
-    expect(findClassNames(".button.red .layout.left")).to.eql([['.button', '.red' ], [ '.layout', '.left' ]]);
-    expect(findClassNames(".button .red   .layout.left")).to.eql([['.button'], ['.red' ], [ '.layout', '.left' ]]);
-    expect(findClassNames(".button .red .label.button.red   .layout.left")).to.eql([['.button'], ['.red' ], [ '.label', '.button', '.red'], [ '.layout', '.left' ]]);
-  });
-  
   it("should pass styles to callback", function() {
     var component = {
       width: 0,
@@ -197,16 +190,20 @@ describe("Styler", function() {
     };
     
     componentStyler(styler(style4))(".label.button.red")(component3);
-    // styler(style4)(".label.button.red")(console.log)
-    // console.log(component3);
-    expect(component3).to.eql({
+    expect(styler(style4)(".label.button.red")()).to.eql({
       width: 300,
       height: 400,
       color: "red2",
+    });
+    
+    expect(component3).to.eql({
       font: {
-        size: "",
-        bold: ""
-      }
+        bold: "",
+        size: ""
+      },
+      width: 300,
+      height: 400,
+      color: "red2",
     });
     
     const styling = styler(style3);
@@ -271,48 +268,4 @@ describe("Styler", function() {
     
     expect(component).to.eql(output);
   });
-
-  it("should pass element styles to callback2", function() {
-    const styling = styler(style4);
-    var component = {};
-    
-    styling(".text-16.blue")(function(className, key, value) {
-      component[key] = value;
-    });
-    
-    expect(component).to.eql({
-      fillColor: "black",
-      font: {
-        size: "12dp"
-      }
-    });
-  });
-/*
-  it("should parse parenting shortcut and pass element styles to callback2", function() {
-    const styling = styler(styleWithNestedShotcut);
-    var component = {};
-    
-    styling(".text-16.text-16-blue")(function(className, key, value) {
-      component[key] = value;
-    });
-    
-    expect(component).to.eql({
-      fillColor: "black",
-      font: {
-        size: "12dp"
-      }
-    });
-  });
-  it("should parse nested parenting shortcut and pass element styles to callback2", function() {
-    const styling = styler(styleWithNestedShotcut);
-    var component = {};
-    
-    styling(".label-button-red")(function(className, key, value) {
-      component[key] = value;
-    });
-    
-    expect(component).to.eql({
-      color: "red"
-    });
-  });*/
 });

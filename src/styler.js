@@ -2,15 +2,16 @@
  * @copyright (c) 2017 Smartface.io
  * @license MIT
  * @author Cenk Cetinkaya
- * @version  1.0.8
-*/
+ * @version  1.0.0
+ */
 
 import cloneStyle from "./utils/cloneStyle";
 import findClassNames from "./utils/findClassNames";
-import mapStyles from "./utils/mapStyles";
-
+import mapStyles from "./utils/flatMapStyles";
+import buildStyles from "./buildStyles";
+import merge from "./utils/merge";
 /**
- * Styling Wrapper. In order to return desired styles, composes styling functions.
+ * Styling Wrapper. In order to return desired styles. Makes styles flatted then merge all by classNames then pass merged styles to callback.
  * 
  * @example
  *  const styler = require("@smartface/styler").styler or require("@smartface/styler/lib/styler");
@@ -44,30 +45,50 @@ import mapStyles from "./utils/mapStyles";
  * @param {Object} style - Styles Object
  * @returns {Function} - Styling composer
  */
-export default function styler(style) {
+export default function styler() {
+  const stylesBundle = buildStyles.apply(null, arguments);
 
   /**
    * Styling composer
    * 
    * @param {String} classNames - Class names of desired styles
    */
-  return function (classNames) {
-    const parsedClassNames = findClassNames(classNames);
+  return function(classNames) {
+    var parsedClassNames;
+    
+    if(classNames){
+      parsedClassNames = findClassNames(classNames).map((classNm) => classNm.join(""));
+    }
 
     /**
-     * Styles mapping
+     * Styles mapper. If passed a function as the argument then return styles to the funtion or null then return style object.
      * 
-     * @param {Function} fn - Mapping callback function
+     * @param {Function | null} fn - Mapping callback function
      */
-    return function (fn) {
-      parsedClassNames.forEach((classNm) => {
-        mapStyles(
-          style,
-          classNm,
-          (className, key, value) => {
-            fn(className, key, cloneStyle(value));
-          });
-      });
+    return function(fn=null) {
+      const styles = [];
+      
+      if(classNames){
+        parsedClassNames.forEach((className) => {
+          styles.push(stylesBundle[className]);
+        });
+      } else {
+        styles.push(stylesBundle);
+      }
+      
+      //create deepcopy of the styles
+      let copy = merge.apply(null, styles);
+      
+      if(fn){
+        let result = {};
+        Object.keys(copy).forEach((key) => {
+          result[key] = fn(classNames, key, copy[key]);
+        });
+        
+        return result;
+      }
+      
+      return copy;
     };
   };
 }
