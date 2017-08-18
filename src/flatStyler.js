@@ -11,9 +11,10 @@ export default function flatStyler(){
   const styles = stylers.map(function(stylr){
     return stylr()();
   });
+  
   const flattedStyler = styler.apply(null, styles);
   
   return function flatStylerStyle(classNames){
     return flattedStyler(classNames);
-  }
-};
+  };
+}

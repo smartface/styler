@@ -4,7 +4,7 @@
 
 import styler from "../src/styler";
 import findClassNames from "../src/utils/findClassNames";
-import mergeStylers from "../src/mergeStylers";
+import mergeStylers from "../src/mergeStyler";
 import componentStyler from "../src/componentStyler";
 import memoizeStyler from "../src/memoizeStyler";
 import {expect} from "chai";

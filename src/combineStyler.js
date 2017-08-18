@@ -21,14 +21,14 @@ import {styleAssignAndClone} from "./utils/styleAssign";
  * @param {Function} - Styler
  * @returns {Function}
  */
-export default function mergeStylers() {
+export default function combineStyler() {
   const stylers = Array.prototype.slice.call(arguments);
   /**
    * Styling composer
    * 
    * @param {String} classNames - Class names of desired styles
    */
-  return function(className) {
+  return function combineStylerStyleComposer(className) {
     /**
      * Styles mapping
      * 
