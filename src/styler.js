@@ -76,7 +76,7 @@ export default function styler() {
         styles.push(stylesBundle);
       }
       
-      //create deepcopy of the styles
+      //create deepcopy of the style
       let copy = merge.apply(null, styles);
       
       if(fn){

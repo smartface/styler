@@ -18,7 +18,7 @@ import {styleAssignAndClone} from "./utils/styleAssign";
  *  
  * });
  * 
- * @param {Function} - Styler
+ * @param {Arrray.<Function>} - Styler functions
  * @returns {Function}
  */
 export default function combineStyler() {
@@ -28,13 +28,17 @@ export default function combineStyler() {
    * 
    * @param {String} classNames - Class names of desired styles
    */
-  return function combineStylerStyleComposer(className) {
+  return function combinedStyleComposer(className) {
     /**
      * Styles mapping
      * 
      * @param {Function} fn - Map callback function
      */
     return function(fn) {
+      if(typeof className !== "string"){
+        return stylers.slice();
+      }
+      
       const result = {};
       const mapFn = function(className, key, value) {
         styleAssignAndClone(result, key, value);

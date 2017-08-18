@@ -10,13 +10,13 @@ module.exports = {
   flexProps: {
     flexGrow: 0,
     flexShrink: 0,
-    alignSelf: "FlexLayout.AlignSelf.AUTO",
-    alignItems: "FlexLayout.AlignItems.STRETCH",
-    alignContent: "FlexLayout.AlignContent.STRETCH",
-    direction: "FlexLayout.Direction.INHERIT",
-    flexDirection: "FlexLayout.FlexDirection.COLUMN",
-    flexWrap: "FlexLayout.FlexWrap.NOWRAP",
-    justifyContent: "FlexLayout.JustifyContent.FLEX_START",
-    positionType: "FlexLayout.PositionType.RELATIVE"
+    alignSelf: "AUTO",
+    alignItems: "STRETCH",
+    alignContent: "STRETCH",
+    direction: "INHERIT",
+    flexDirection: "COLUMN",
+    flexWrap: "NOWRAP",
+    justifyContent: "FLEX_START",
+    positionType: "RELATIVE"
   }
 };

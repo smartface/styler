@@ -14,9 +14,9 @@ module.exports = {
   borderWidth: 0,
   textColor: "#FFFFFF",
   text: "Button",
-  textAlignment: "Alignment.MIDCENTER",
+  textAlignment: "MIDCENTER",
   flexProps: {
-  	positionType: "FlexLayout.PositionType.RELATIVE",
-  	alignSelf: "FlexLayout.AlignSelf.AUTO"
+  	positionType: "RELATIVE",
+  	alignSelf: "AUTO"
   }
 };

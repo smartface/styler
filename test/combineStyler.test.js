@@ -4,7 +4,7 @@
 
 import styler from "../src/styler";
 import findClassNames from "../src/utils/findClassNames";
-import mergeStylers from "../src/mergeStyler";
+import combineStyler from "../src/combineStyler";
 import componentStyler from "../src/componentStyler";
 import memoizeStyler from "../src/memoizeStyler";
 import {expect} from "chai";
@@ -14,7 +14,7 @@ import {expect} from "chai";
 // const resetStylerCache = require("../src/styler").resetStylerCache;
 // const componentStyler = require("../src/styler").componentStyler;
 
-describe("Merge Stylers", function() {
+describe("Combine Stylers", function() {
     var style1 = {
       ".button": {
         width: 100,
@@ -41,7 +41,8 @@ describe("Merge Stylers", function() {
           }
         }
       }
-    };    
+    };
+    
   var style2 = {
     ".button": {
       top: '10dp',
@@ -55,19 +56,35 @@ describe("Merge Stylers", function() {
     }
   };
   
-  it("should merge given style objects", () => {
-      const merged = mergeStylers(styler(style1), styler(style2))(".button");
-      const res = merged();
+  var style3 = {
+    ".button": {
+      top: '1000',
+    }
+  };
+  
+  it("should combine given stylers", () => {
+      const combined = combineStyler(styler(style1), styler(style2))(".button");
+      const res = combined();
       
       expect({width: 100, height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } }).to.be.eql(res);
   });
   
   it("should be able to use with memoizeStyler", () => {
-    const component = {};
-    const merged = mergeStylers(styler(style1), styler(style2));
-    const mergedRes = merged(".button")();
+    const combined = combineStyler(styler(style1), styler(style2));
+    const mergedRes = combined(".button")();
+    const cachableStyler = memoizeStyler(combined);
+    const style = cachableStyler(".button")();
     
-    componentStyler(memoizeStyler(merged))(".button")(component);
-    expect({width: 100, height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } }).to.be.eql(component);
+    // componentStyler()(".button")(component);
+    expect({width: 100, height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } }).to.be.eql(style);
+  });
+
+  it("should be able to be combined with another stylers", () => {
+    const combined1 = combineStyler(styler(style1), styler(style2));
+    const combined2 = combineStyler(combined1, styler(style3));
+    const combinedRes = combined2(".button")();
+
+    // componentStyler()(".button")(component);
+    expect({width: 100, height: 200, top: '1000', left: '20dp', font: { size: '20dp', bold: true } }).to.be.eql(combinedRes);
   });
 });

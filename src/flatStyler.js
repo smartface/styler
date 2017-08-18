@@ -7,13 +7,17 @@
 import styler from "./styler";
 
 export default function flatStyler(){
-  const stylers = Array.prototype.slice(arguments);
+  const stylers = Array.prototype.slice.call(arguments);
   const styles = stylers.map(function(stylr){
-    return stylr()();
+    const style = stylr()(); 
+    
+    return Array.isArray(style)
+      ? flatStyler.apply(null, style)()()
+      : style
   });
-  
+
   const flattedStyler = styler.apply(null, styles);
-  
+
   return function flatStylerStyle(classNames){
     return flattedStyler(classNames);
   };

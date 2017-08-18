@@ -79,8 +79,8 @@ const basicStyle2 = {
   },
 };
 
-describe("Merging Styles", function() {
-  it("should create deeply copy of style", function() {
+describe("Merge Objects", function() {
+  it("should create deeply copy of object", function() {
     const basicStyle1 = {
       ".button": {
         width: 100,

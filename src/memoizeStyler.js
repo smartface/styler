@@ -1,5 +1,5 @@
-import cloneStyle from "./utils/cloneStyle";
 import {styleAssignAndClone} from "./utils/styleAssign";
+import merge from "./utils/merge";
 
 /**
  * Memoize Pattern implementation for Styler. Decorates a styler function 
@@ -33,19 +33,20 @@ export default function memoizeStyler(styler) {
      *
      * @params {Function} fn - Map function
      */
-    return function(fn){
-      const style = cloneStyle(memory[className]);
-      Object
-        .keys(memory[className])
-        .forEach(key => fn(className, key, style[key]));
+    return function(fn=null){
+      if(typeof className !== "string"){
+        return merge(memory);
+      }
       
-      return function removeFromMemory(all=false) {
-        if(all) {
-          memory = {};
-        } else {
-          delete memory[className];
-        }
-      };
+      const style = merge(memory[className]);
+      
+      if(typeof fn === 'function'){
+        Object
+          .keys(memory[className])
+          .forEach(key => fn(className, key, style[key]));
+      } else {
+        return style;
+      }
     };
   };
 }

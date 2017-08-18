@@ -2,16 +2,12 @@ import React from "react";
 import themeStyler from "./themeStyler";
 import styler from "./styler";
 
-export default function connectStyler(Component, style) {
-  const theme = themeStyler(styler(style));
-
-  return (props) => {
-    const themeStyle = theme(props.theme)(props.themeClassName);
-
-    const p = Object.assign({}, props);
-    delete p.themeClassName;
-    delete p.theme;
-
-    return <Component themeStyle={themeStyle} {...p} />;
+export default function withStyler(Component, styler) {
+  return new class StylerWrapper extends React.Component {
+    render(){
+      const {className, ...p} = this.props;
+    
+      return <Component {...styler(className)()} {...p} />;
+    }
   };
 };
