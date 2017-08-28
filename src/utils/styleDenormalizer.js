@@ -1,7 +1,7 @@
 import {styleAssign, styleAssignAndClone} from "./styleAssign";
 import merge from "./merge";
 
-import {CLASSNAME, ID, CHILD_CLASS, COMMAND} from "./constants";
+import {CLASSNAME, ID, CHILD_CLASS, COMMAND} from "../constants";
 
 function flat(styles){
   const denormalizedStyles = {};

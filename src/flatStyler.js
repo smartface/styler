@@ -6,6 +6,10 @@
 
 import styler from "./styler";
 
+/**
+ * Flats specified Stylers
+ *
+ */
 export default function flatStyler(){
   const stylers = Array.prototype.slice.call(arguments);
   const styles = stylers.map(function(stylr){

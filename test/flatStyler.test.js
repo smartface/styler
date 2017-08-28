@@ -8,12 +8,6 @@ import combineStyler from "../src/combineStyler";
 import merge from "../src/utils/merge";
 import { expect } from "chai";
 
-
-// import {findClassNames} from "../src/styler";
-// const styler = require("../src/styler").styler;
-// const resetStylerCache = require("../src/styler").resetStylerCache;
-// const componentStyler = require("../src/styler").componentStyler;
-
 describe("FlatStyler", function() {
   var component = { prop: "-", top: 0, left: 0 };
   var style1 = {
