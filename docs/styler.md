@@ -6,13 +6,13 @@
 
 * * *
 
-### exports(style) 
+### exports() 
 
 Styling Wrapper. In order to return desired styles. Makes styles flatted then merge all by classNames then pass merged styles to callback.
 
 **Parameters**
 
-**style**: `Object`, Styles Object
+****: `Object.&lt;string, (string|number|function()|Object)&gt;`, Style Objects
 
 **Returns**: `function`, - Styling composer
 

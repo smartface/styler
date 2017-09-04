@@ -6,14 +6,14 @@
 
 * * *
 
-### exports(styler) 
+### exports(styling) 
 
 Memoize Pattern implementation for Styler. Decorates a styler function 
 and caches every request then returns styles from the cache.
 
 **Parameters**
 
-**styler**: `function`, Styler function
+**styling**: `function`, Styling function
 
 **Returns**: `function`, - Styling composer
 
