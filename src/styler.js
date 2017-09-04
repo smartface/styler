@@ -2,7 +2,7 @@
  * @copyright (c) 2017 Smartface.io
  * @license MIT
  * @author Cenk Cetinkaya
- * @version  1.0.0
+ * @version  1.1.2
  */
 
 import cloneStyle from "./utils/cloneStyle";
@@ -42,8 +42,8 @@ import merge from "./utils/merge";
  *  });
  *  // redButtonStyle equals to {width: "100px", height: "20px", color: "red"}
  * 
- * @param {Object} style - Styles Object
- * @returns {Function} - Styling composer
+ * @param {...Object.<string, (string | number | function | Object)>} - Style Objects
+ * @returns {function} - Styling composer
  */
 export default function styler() {
   const stylesBundle = buildStyles.apply(null, arguments);
@@ -51,44 +51,49 @@ export default function styler() {
   /**
    * Styling composer
    * 
-   * @param {String} classNames - Class names of desired styles
+   * @param {...string} classNames - Class names of desired styles
    */
-  return function(classNames) {
+  return function stylingComposer(classNames) {
     var parsedClassNames;
+    const styles = [];
     
     if(classNames){
       parsedClassNames = findClassNames(classNames).map((classNm) => classNm.join(""));
+      parsedClassNames.forEach((className) => {
+        styles.push(stylesBundle[className]);
+      });
+    } else {
+      styles.push(stylesBundle);
     }
+    
+    const style = merge.apply(null, styles);
 
     /**
      * Styles mapper. If passed a function as the argument then return styles to the funtion or null then return style object.
      * 
-     * @param {Function | null} fn - Mapping callback function
+     * @param {?function=} [null] fn - Mapping callback function
      */
-    return function(fn=null) {
-      const styles = [];
-      
-      if(classNames){
-        parsedClassNames.forEach((className) => {
-          styles.push(stylesBundle[className]);
-        });
-      } else {
-        styles.push(stylesBundle);
-      }
+    return function stylesComposer(fn=null) {
       
       //create deepcopy of the style
-      let copy = merge.apply(null, styles);
       
       if(fn){
         let result = {};
-        Object.keys(copy).forEach((key) => {
-          result[key] = fn(classNames, key, copy[key]);
-        });
         
+        parsedClassNames.forEach((className) => {
+          Object.keys(stylesBundle[className]).forEach((key) => {
+            let value = stylesBundle[className][key] instanceof Object 
+              ? merge(stylesBundle[className][key])
+              : stylesBundle[className][key];
+              
+            result[key] = fn(classNames, key, value);
+          });
+        });
+
         return result;
-      }
-      
-      return copy;
+      };
+
+      return style;
     };
   };
 }

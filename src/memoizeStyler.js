@@ -1,52 +1,57 @@
 import {styleAssignAndClone} from "./utils/styleAssign";
 import merge from "./utils/merge";
+import findClassNames from "./utils/findClassNames";
 
 /**
  * Memoize Pattern implementation for Styler. Decorates a styler function 
  * and caches every request then returns styles from the cache.
  * 
- * @param {Function} styler - Styler function
- * @returns {Function} - Styling composer
+ * @param {function} styling - Styling function
+ * @returns {function} - Styling composer
  */
-export default function memoizeStyler(styler) {
-  let memory = {};
+export default function memoizeStyler(styling) {
+  var memory = {};
   
   /**
    * Gets styles from styler then caches them using className as a key
    * 
-   * @param {String} className - Classnames string
+   * @param {string} classNames - Classnames string
+   * @returns {function | Object} - If classnames exists then return styles composer if not returns the cache's deep copy.
    */
-  return (className) => {
-    if (!memory[className]) {
-      const styling = styler(className);
-      const newStyle = {};
-  
-      styling((className, key, value) => {
-        styleAssignAndClone(newStyle, key, value);
-      });
-
-      memory[className] = newStyle;
+  return (classNames) => {
+    if(classNames){
+      const styles = styling(classNames);
+      const parsedClassNames = findClassNames(classNames).map((classNm) => classNm.join(""));
+      
+      if(!memory[classNames]){
+        memory[classNames] = {};
+        styles((className, key, value) => {
+          if (!memory[className]) {
+            memory[className] = memory[className] || {};
+            memory[className][key] = value;
+          };
+          memory[classNames][key] = value;
+        });
+      }
     }
+
+    const style = classNames ? merge(memory[classNames]) : merge(memory);
     
     /**
      * Styles mapping function, get styles from styler or cache if exists then calls fn and pass style.
      *
-     * @params {Function} fn - Map function
+     * @param {function} fn - Map function
+     * @returns {Object} - Styles
      */
     return function(fn=null){
-      if(typeof className !== "string"){
-        return merge(memory);
-      }
-      
-      const style = merge(memory[className]);
-      
       if(typeof fn === 'function'){
         Object
-          .keys(memory[className])
-          .forEach(key => fn(className, key, style[key]));
-      } else {
-        return style;
+          .keys(style)
+          .forEach(key => fn(classNames, key, style[key]));
       }
+      
+      // returns deep copy of styles from cache
+      return style;
     };
   };
 }

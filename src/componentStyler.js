@@ -4,7 +4,7 @@ import {
 from "./utils/styleAssign";
 
 /**
- * Component High Order Styler function. Gets styles from styler then assigns them to given object or component.
+ * Component High-Order-Styler. Gets styles from styler then assigns them to given component.
  * 
  * @example
  *  ...

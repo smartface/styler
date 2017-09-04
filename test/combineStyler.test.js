@@ -66,17 +66,17 @@ describe("Combine Stylers", function() {
       const combined = combineStyler(styler(style1), styler(style2))(".button");
       const res = combined();
       
-      expect({width: 100, height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } }).to.be.eql(res);
+      expect(res).to.be.eql({width: 100, height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } });
   });
   
   it("should be able to use with memoizeStyler", () => {
-    const combined = combineStyler(styler(style1), styler(style2));
-    const mergedRes = combined(".button")();
-    const cachableStyler = memoizeStyler(combined);
-    const style = cachableStyler(".button")();
+    const combinedStyling = combineStyler(styler(style1), styler(style2));
+    const mergedRes = combinedStyling(".button")();
+    const cachableStyling = memoizeStyler(combinedStyling);
+    const style = cachableStyling(".button")();
     
-    // componentStyler()(".button")(component);
-    expect({width: 100, height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } }).to.be.eql(style);
+    expect(mergedRes).to.be.eql({width: 100, height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } });
+    expect(style).to.be.eql(mergedRes);
   });
 
   it("should be able to be combined with another stylers", () => {
@@ -84,7 +84,6 @@ describe("Combine Stylers", function() {
     const combined2 = combineStyler(combined1, styler(style3));
     const combinedRes = combined2(".button")();
 
-    // componentStyler()(".button")(component);
-    expect({width: 100, height: 200, top: '1000', left: '20dp', font: { size: '20dp', bold: true } }).to.be.eql(combinedRes);
+    expect(combinedRes).to.be.eql({width: 100, height: 200, top: '1000', left: '20dp', font: { size: '20dp', bold: true } });
   });
 });
