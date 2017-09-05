@@ -3,3 +3,11 @@ node_modules
 .git
 npm-debug.log
 __MakeFile
+.scripts
+test
+docs
+examples
+.eslintrc
+.cz-config.js
+Makefile
+.travis.yml

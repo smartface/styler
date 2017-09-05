@@ -38,8 +38,7 @@ export default function componentStyler(styler) {
       styler(className)(function(cName, key, value) {
         if (typeof component === "object") {
           styleAssignAndClone(component, key, value);
-        }
-        else {
+        } else {
           throw "[Component :" + component + ", ClassName: " + cName + "] style cannot be assigned.";
         }
       });
