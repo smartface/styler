@@ -6,6 +6,8 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./test/**/*.test.js",
     "test:watch": "mocha --watch --compilers js:babel-core/register ./test/**/*.test.js",
+    "prepublish": "npm run build",
+    "posypublish": "rm -rf ./lib",
     "build": "babel ./src/ --ignore connectStyler.js --out-dir -d ./lib/.",
     "docs:create": "jsdox ./src -o docs",
     "jase": "jase"
