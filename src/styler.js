@@ -58,7 +58,7 @@ export default function styler() {
     const styles = [];
     
     if(classNames){
-      parsedClassNames = findClassNames(classNames).map((classNm) => classNm.join(""));
+      parsedClassNames = findClassNames(classNames).map((classNm) => classNm ? classNm.join("") : "");
       parsedClassNames.forEach((className) => {
         styles.push(stylesBundle[className]);
       });
