@@ -146,7 +146,16 @@ describe("Merge Objects", function() {
     });
   });
   
-  it("should merge deeply 3 and more styles as a new instance", function() {
+  it("should be able to merge null value as null", function() {
+    const res = merge({x: 100, y: 10, z: {a: 1, b: 2}}, {x: null, z:{b: null}});
     
+    expect(res).to.be.eql({x: null, y: 10, z:{a: 1, b: null}});
   });
+
+  it("should be able to merge NaN value as NaN", function() {
+    const res = merge({x: 100, y: 10, z: {a: 1, b: 2}}, {x: NaN, y:null, z:{b: NaN}});
+    
+    expect(res).to.be.eql({x: NaN, y: null, z:{a: 1, b: NaN}});
+  });
+
 });

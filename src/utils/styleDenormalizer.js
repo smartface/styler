@@ -34,7 +34,7 @@ function flat(styles){
         default:
           denormalizedStyles[parent+newKey] = denormalizedStyles[parent+newKey] || {};
           
-          // current is className then merge with parent
+          // if current is className then merge with parent
           if(parent && denormalizedStyles[parent] && key.charAt(0) === CLASSNAME) {
             denormalizedStyles[parent+newKey] = merge(denormalizedStyles[parent], denormalizedStyles[parent+newKey]);
           }

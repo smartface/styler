@@ -6,7 +6,6 @@ import styler from "../src/styler";
 import findClassNames from "../src/utils/findClassNames";
 import componentStyler from "../src/componentStyler";
 import {expect} from "chai";
-const Styler = require("../");
 
 // import {findClassNames} from "../src/styler";
 // const styler = require("../src/styler").styler;
@@ -101,6 +100,9 @@ describe("Styler", function() {
           font: {
             size: "12dp"
           }
+        },
+        ".colorless": {
+          fillColor: null
         }
       }
     };
@@ -151,15 +153,6 @@ describe("Styler", function() {
     };
 
   beforeEach(function() {
-  });
-
-  it("should be required from index.js", function() {
-    expect(typeof Styler.styler === "function").to.be.true;
-    expect(typeof Styler.componentStyler === "function").to.be.true;
-    expect(typeof Styler.extendStyler === "function").to.be.true;
-    expect(typeof Styler.themeStyler === "function").to.be.true;
-    expect(typeof Styler.memoizeStyler === "function").to.be.true;
-    expect(typeof Styler.flatStyler === "function").to.be.true;
   });
   
   it("should pass styles to callback", function() {
@@ -267,5 +260,13 @@ describe("Styler", function() {
     });
     
     expect(component).to.eql(output);
+  });
+  
+  it("should assign null values", function() {
+    const styling = styler(style4);
+    const output = { font: { size: "16" }, fillColor: null };
+    const styles = styling(".text-16.blue .text-16.colorless")();
+    
+    expect(styles).to.eql(output);
   });
 });

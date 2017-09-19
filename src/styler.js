@@ -2,7 +2,7 @@
  * @copyright (c) 2017 Smartface.io
  * @license MIT
  * @author Cenk Cetinkaya
- * @version  1.1.2
+ * @version  1.2.2
  */
 
 import cloneStyle from "./utils/cloneStyle";
@@ -82,9 +82,10 @@ export default function styler() {
         
         parsedClassNames.forEach((className) => {
           Object.keys(stylesBundle[className]).forEach((key) => {
-            let value = stylesBundle[className][key] instanceof Object 
-              ? merge(stylesBundle[className][key])
-              : stylesBundle[className][key];
+            let value = stylesBundle[className][key] !== null && 
+              stylesBundle[className][key] instanceof Object 
+                ? merge(stylesBundle[className][key])
+                : stylesBundle[className][key];
               
             result[key] = fn(classNames, key, value);
           });

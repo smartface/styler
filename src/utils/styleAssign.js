@@ -10,9 +10,9 @@ import cloneStyle from "./cloneStyle";
 export function styleAssign(target, key, value) {
   const style = target;
 
-  if (typeof style[key] === "object") {
+  if (style[key] !== null && typeof style[key] === "object") {
     style[key] = {...style[key], ...value};
-  } else if (typeof value === "object") {
+  } else if (value !== null  && typeof value === "object") {
     style[key] = {...value};
   } else {
     style[key] = value;

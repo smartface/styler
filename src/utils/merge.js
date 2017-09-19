@@ -1,5 +1,5 @@
 function isObj(val){
-  return val !== null && typeof val === "object";
+  return val !== null && val instanceof Object;
 }
 
 function hasProp(target, prop) {

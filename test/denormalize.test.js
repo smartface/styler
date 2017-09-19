@@ -97,14 +97,12 @@ describe("Denormalize Styles", function() {
   });
   
   it("should be able to merge null value as null", function() {
-    const res = merge({x: 100, y: 10, z: {a: 1, b: 2}}, {x: null, z:{b: null}});
-    
-    expect(res).to.be.eql({x: null, y: 10, z:{a: 1, b: null}});
+    const res = styleDenormalizer({".root": {x: null, y: null, z: {a: 1, b: null}}});
+    expect(res[0].styles[".root"]).to.be.eql({x: null, y: null, z:{a: 1, b: null}});
   });
 
   it("should be able to merge NaN value as NaN", function() {
-    const res = merge({x: 100, y: 10, z: {a: 1, b: 2}}, {x: NaN, z:{b: NaN}});
-    
-    expect(res).to.be.eql({x: NaN, y: 10, z:{a: 1, b: NaN}});
+    const res = styleDenormalizer({".root": {x: NaN, y: NaN, z: {a: 1, b: NaN}}});
+    expect(res[0].styles[".root"]).to.be.eql({x: NaN, y: NaN, z:{a: 1, b: NaN}});
   });
 });
