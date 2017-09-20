@@ -31,10 +31,13 @@ describe("CommandsManager", function() {
         },
         "@newCommand": {
           "top": 100
+        },
+        "+media:Screen.width > 100": {
+          "top": 100,
+          "width": "Screen.width/2"
         }
       }
     };
-
 
     commands.addCommandFactory(function(command) {
       switch (command) {
@@ -45,14 +48,71 @@ describe("CommandsManager", function() {
           };
       }
     });
+    
     const styling = styler(style1);
     const styles = styling(".button")();
+    
+    // console.log(styling(".button")())
 
     expect(styles).to.eql({
       top: 100,
       left: '20dp',
       font: {
         size: "20dp"
+      },
+    });
+  });
+  
+  it("should be add a new runtime command", function() {
+    var style1 = {
+      ".button": {
+        top: '10dp',
+        left: '20dp',
+        font: {
+          size: "20dp"
+        },
+        ".red": {
+          fillColor: "#ff0c0c"
+        },
+        "+media:Screen.width > 100": {
+          "top": 100,
+          "width": "Screen.width/2"
+        }
+      }
+    };
+
+    commands.addRuntimeCommandFactory(function runtimeCommandFactory(command) {
+      switch (command) {
+        case '+media':
+          return ({args, className, value}) => {
+            const screen = {width: 200};
+            const evalValue = (function(Screen){
+              const res = eval(args);
+              res && Object.keys(value).forEach(key => value[key] = eval(value[key]));
+              
+              return res;
+            }(screen))
+            
+            if(evalValue){
+              return value;
+            }
+            
+            return {};
+          };
+      }
+    });
+    
+    const styling = styler(style1);
+    const styles = styling(".button")();
+    
+    // console.log(styling(".button")())
+
+    expect(styles).to.eql({
+      top: 100,
+      width: 100,
+      left: '20dp',
+      font: {
+        size: "20dp",
       },
     });
   });

@@ -8,7 +8,6 @@ function extend(styles, className, extendFrom) {
 
 function extendAll(styles, className, extendFrom) {
   const patternStr = "\\"+extendFrom+"\\W+";
-  console.log(patternStr);
   const pattern = new RegExp(patternStr);
   Object.keys(styles).forEach(classN => {
     if(pattern.test(classN)){
@@ -29,12 +28,19 @@ function findCommnand(command) {
 }
 
 const commands = [findCommnand];
+const runtimeCommands = [];
 
 export default {
   addCommandFactory(commandFactory) {
     commands.push(commandFactory);
   },
+  addRuntimeCommandFactory(commandFactory) {
+    runtimeCommands.push(commandFactory);
+  },
   getCommands() {
     return commands.concat();
+  },
+  getRuntimeCommands() {
+    return runtimeCommands.concat();
   }
 };

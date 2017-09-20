@@ -1,11 +1,12 @@
 import {styleAssign, styleAssignAndClone} from "./styleAssign";
 import merge from "./merge";
 
-import {CLASSNAME, ID, CHILD_CLASS, COMMAND} from "../constants";
+import {CLASSNAME, RUNTIME_COMMAND, ID, CHILD_CLASS, COMMAND} from "../constants";
 
 function flat(styles){
   const denormalizedStyles = {};
   const commands = {};
+  const runtimeCommands = {};
 
   function flatStyle(style, key, parent="") {
     Object.keys(style[key]).forEach((skey) => {
@@ -16,6 +17,18 @@ function flat(styles){
       }
       
       switch (skey.charAt(0)) {
+        case RUNTIME_COMMAND:
+          let currentClass = parent+newKey;
+          runtimeCommands[currentClass] = runtimeCommands[currentClass] || [];
+          runtimeCommands[currentClass].push({
+            type: skey.slice(0, skey.indexOf(":")),
+            args: skey.slice(skey.indexOf(":")+1),
+            className: parent+newKey,
+            value: merge(style[key][skey])
+          });
+          
+          delete style[skey];
+          break;
         case COMMAND:
           commands[skey] = commands[skey] || [];
           commands[skey].push({
@@ -50,7 +63,8 @@ function flat(styles){
   
   return {
     styles: denormalizedStyles,
-    commands
+    commands,
+    runtimeCommands
   }
 }
 

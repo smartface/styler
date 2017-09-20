@@ -10,6 +10,7 @@ import findClassNames from "./utils/findClassNames";
 import mapStyles from "./utils/flatMapStyles";
 import buildStyles from "./buildStyles";
 import merge from "./utils/merge";
+import commandsManager from "./commandsManager";
 
 /**
  * Styling Wrapper. In order to return desired styles. Makes styles flatted then merge all by classNames then pass merged styles to callback.
@@ -57,16 +58,29 @@ function styler() {
   return function stylingComposer(classNames) {
     var parsedClassNames;
     const styles = [];
-    
-    if(classNames){
+
+    if (classNames) {
       parsedClassNames = findClassNames(classNames).map((classNm) => classNm ? classNm.join("") : "");
       parsedClassNames.forEach((className) => {
-        styles.push(stylesBundle[className]);
+        let style = stylesBundle[className];
+        let factories = stylesBundle.__runtime_commands__[className]  
+          ? commandsManager.getRuntimeCommands()
+          : null;
+        if (factories) {
+          factories.forEach(factory => {
+            stylesBundle.__runtime_commands__[className].forEach(command => {
+              let fn = factory(command.type);
+              fn && (style = merge(style, fn(command)));
+            });
+          })
+        }
+        styles.push(style);
       });
-    } else {
+    }
+    else {
       styles.push(stylesBundle);
     }
-    
+
     const style = merge.apply(null, styles);
 
     /**
@@ -74,20 +88,20 @@ function styler() {
      * 
      * @param {?function=} [null] fn - Mapping callback function
      */
-    return function stylesComposer(fn=null) {
-      
+    return function stylesComposer(fn = null) {
+
       //create deepcopy of the style
-      
-      if(fn){
+
+      if (fn) {
         let result = {};
-        
+
         parsedClassNames.forEach((className) => {
           Object.keys(stylesBundle[className]).forEach((key) => {
-            let value = stylesBundle[className][key] !== null && 
-              stylesBundle[className][key] instanceof Object 
-                ? merge(stylesBundle[className][key])
-                : stylesBundle[className][key];
-              
+            let value = stylesBundle[className][key] !== null &&
+              stylesBundle[className][key] instanceof Object ?
+              merge(stylesBundle[className][key]) :
+              stylesBundle[className][key];
+
             result[key] = fn(classNames, key, value);
           });
         });
