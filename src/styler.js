@@ -10,6 +10,7 @@ import findClassNames from "./utils/findClassNames";
 import mapStyles from "./utils/flatMapStyles";
 import buildStyles from "./buildStyles";
 import merge from "./utils/merge";
+
 /**
  * Styling Wrapper. In order to return desired styles. Makes styles flatted then merge all by classNames then pass merged styles to callback.
  * 
@@ -45,7 +46,7 @@ import merge from "./utils/merge";
  * @param {...Object.<string, (string | number | function | Object)>} - Style Objects
  * @returns {function} - Styling composer
  */
-export default function styler() {
+function styler() {
   const stylesBundle = buildStyles.apply(null, arguments);
 
   /**
@@ -98,3 +99,5 @@ export default function styler() {
     };
   };
 }
+
+export default styler;

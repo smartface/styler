@@ -2,6 +2,7 @@ import styleDenormalizer from "../src/utils/styleDenormalizer";
 import merge from "../src/utils/merge";
 import commander from "../src/utils/commander";
 import {expect} from "chai";
+import commands from "../src/commandsManager";
 
 const styleWithNestedShortcuts = {
       "#button": {
@@ -76,7 +77,7 @@ describe("Denormalize Styles", function() {
   
   it("should be able to be extended from a className", function() {
     const res = styleDenormalizer(styleWithNestedShortcuts);
-    commander(res[0].styles, res[0].commands);
+    commander(res[0].styles, res[0].commands, commands.getCommands());
     
     expect(res[0].styles).to.be.eql(
     {

@@ -1,7 +1,7 @@
 import styler from "./styler";
 
-class StylerDriver {
-  constructor(styler){
+class Styla {
+  constructor(commands){
     this.subscribers = [];
   }
   
