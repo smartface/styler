@@ -26,7 +26,7 @@ export default function deepMerge() {
   
   for (var i=0; i < arguments.length; i++) {
     acc = recurse(acc, arguments[i]);
-    if(arguments[i].__runtime__commands !== undefined){
+    if(arguments[i] && arguments[i].__runtime__commands !== undefined){
       acc.__runtime_commands__ = {...acc.__runtime_commands__, ...arguments[i].__runtime__commands};
     }
   }

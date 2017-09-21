@@ -44,6 +44,7 @@ describe("CommandsManager", function() {
         case '@newCommand':
           return (styles, className, value) => {
             styles[className].top = value.top;
+            
             return styles;
           };
       }
@@ -63,7 +64,7 @@ describe("CommandsManager", function() {
     });
   });
   
-  it("should be add a new runtime command", function() {
+  it("should be add and run a new runtime command", function() {
     var style1 = {
       ".button": {
         top: '10dp',
@@ -86,12 +87,12 @@ describe("CommandsManager", function() {
         case '+media':
           return ({args, className, value}) => {
             const screen = {width: 200};
-            const evalValue = (function(Screen){
+            const evalValue = (function(Screen, Device){
               const res = eval(args);
               res && Object.keys(value).forEach(key => value[key] = eval(value[key]));
               
               return res;
-            }(screen))
+            }(screen));
             
             if(evalValue){
               return value;
@@ -102,12 +103,11 @@ describe("CommandsManager", function() {
       }
     });
     
-    const styling = styler(style1);
+    const styling = styler({".button": {bottom: 20}}, style1);
     const styles = styling(".button")();
     
-    // console.log(styling(".button")())
-
     expect(styles).to.eql({
+      "bottom": 20,
       top: 100,
       width: 100,
       left: '20dp',
@@ -115,6 +115,26 @@ describe("CommandsManager", function() {
         size: "20dp",
       },
     });
+    
+    expect(styling()()).to.eql(
+      {
+        '.button': { 
+          "bottom": 20,
+          top: 100,
+          left: '20dp',
+          font: { size: '20dp' },
+          width: 100
+        },
+        '.button.red': {
+          top: '10dp',
+          left: '20dp',
+          font: { size: '20dp' },
+          fillColor: '#ff0c0c'
+        },
+      }
+    );
+    
+    console.log(styling()())
   });
 
   it("should extend deeply", function() {

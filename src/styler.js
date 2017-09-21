@@ -2,7 +2,6 @@
  * @copyright (c) 2017 Smartface.io
  * @license MIT
  * @author Cenk Cetinkaya
- * @version  1.2.2
  */
 
 import cloneStyle from "./utils/cloneStyle";
@@ -60,25 +59,43 @@ function styler() {
     const styles = [];
 
     if (classNames) {
+      const commands = stylesBundle.__runtime_commands__;
       parsedClassNames = findClassNames(classNames).map((classNm) => classNm ? classNm.join("") : "");
       parsedClassNames.forEach((className) => {
         let style = stylesBundle[className];
-        let factories = stylesBundle.__runtime_commands__[className]  
+        let factories = commands[className]
           ? commandsManager.getRuntimeCommands()
           : null;
         if (factories) {
           factories.forEach(factory => {
-            stylesBundle.__runtime_commands__[className].forEach(command => {
+            commands[className].forEach(command => {
               let fn = factory(command.type);
               fn && (style = merge(style, fn(command)));
             });
-          })
+          });
         }
+        
         styles.push(style);
       });
-    }
-    else {
+    } else {
+      const commands = stylesBundle.__runtime_commands__;
+      const factories = commandsManager.getRuntimeCommands();
       styles.push(stylesBundle);
+      
+      // if runtime commands and command factories exist
+      if (factories.length > 0 && commands) {
+        // run all runtime commands of the styles
+        Object.keys(commands).forEach(className => {
+          commands[className].forEach(command => {
+            factories.forEach(factory => {
+              let style = {};
+              const fn = factory(command.type);
+              fn && (style[className] = merge(stylesBundle[className], fn(command)));
+              styles.push(style);
+            });
+          });
+        });
+      }
     }
 
     const style = merge.apply(null, styles);
