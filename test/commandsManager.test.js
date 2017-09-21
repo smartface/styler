@@ -103,11 +103,11 @@ describe("CommandsManager", function() {
       }
     });
     
-    const styling = styler({".button": {bottom: 20}}, style1);
+    const styling = styler({".button": {bottom: 20}}, style1, {".button": {bottom: 40}});
     const styles = styling(".button")();
     
     expect(styles).to.eql({
-      "bottom": 20,
+      "bottom": 40,
       top: 100,
       width: 100,
       left: '20dp',
@@ -119,7 +119,7 @@ describe("CommandsManager", function() {
     expect(styling()()).to.eql(
       {
         '.button': { 
-          "bottom": 20,
+          "bottom": 40,
           top: 100,
           left: '20dp',
           font: { size: '20dp' },
@@ -133,8 +133,6 @@ describe("CommandsManager", function() {
         },
       }
     );
-    
-    console.log(styling()())
   });
 
   it("should extend deeply", function() {
