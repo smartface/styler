@@ -1,14 +1,19 @@
 import merge from "./utils/merge";
 
-function extend(styles, className, extendFrom) {
+function extend(styles, className, extendFrom, runtimeCommands) {
   const extendeds = extendFrom.split(",");
   let superStyles = {};
   
   extendeds.forEach((extend) => {
-     superStyles = merge(superStyles, styles[extend]);
+    superStyles = merge(superStyles, styles[extend]);
+    if(runtimeCommands[extend]){
+      runtimeCommands[className] = runtimeCommands[className].concat(runtimeCommands[extend].map(obj => merge(obj)));
+    }
   });
   
   styles[className] = merge(superStyles, styles[className]);
+  
+  
   
   return styles;
 }
@@ -16,6 +21,7 @@ function extend(styles, className, extendFrom) {
 function extendAll(styles, className, extendFrom) {
   const extendeds = extendFrom.split(",");
   const extendingClassNamePattern = new RegExp("\\"+extendFrom+"\\W+");
+  
   Object.keys(styles).forEach(classN => {
     if(extendingClassNamePattern.test(classN)){
       styles[classN.replace(extendFrom, className)] = merge(styles[classN], styles[className]);

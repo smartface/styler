@@ -6,6 +6,7 @@ import styler from "../src/styler";
 import findClassNames from "../src/utils/findClassNames";
 import componentStyler from "../src/componentStyler";
 import { expect } from "chai";
+import builder from "../src/buildStyles";
 import commands from "../src/commandsManager";
 
 // import {findClassNames} from "../src/styler";
@@ -214,5 +215,56 @@ describe("CommandsManager", function() {
       // } 
       }
      )
+  });
+  
+  it("should be able to extend with owner style", function() {
+    var style1 = {
+      ".b": {
+        top: '10dp',
+        left: '20dp',
+        "+command1:": {
+          width: 100
+        }
+      },
+      ".f": {
+        "@extend": ".b",
+        "+command2:": {
+          width: 100
+        }
+      },
+    };
+    
+    var output = builder(style1);
+    // console.log(JSON.stringify(output.__runtime_commands__, " ", "  "));
+    expect(output.__runtime_commands__).to.eql({
+      ".b": [
+        {
+          "type": "+command1",
+          "args": "",
+          "className": ".b",
+          "value": {
+            "width": 100
+          }
+        }
+      ],
+      ".f": [
+        {
+          "type": "+command2",
+          "args": "",
+          "className": ".f",
+          "value": {
+            "width": 100
+          }
+        },
+        {
+          "type": "+command1",
+          "args": "",
+          "className": ".b",
+          "value": {
+            "width": 100
+          }
+        }
+      ]
+    });
   });
 });

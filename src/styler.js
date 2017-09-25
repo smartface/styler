@@ -46,8 +46,8 @@ import commandsManager from "./commandsManager";
  * @param {...Object.<string, (string | number | function | Object)>} - Style Objects
  * @returns {function} - Styling composer
  */
-function styler() {
-  const stylesBundle = buildStyles.apply(null, arguments);
+function styler(...rawStyles) {
+  const stylesBundle = buildStyles.apply(null, rawStyles);
 
   /**
    * Styling composer
