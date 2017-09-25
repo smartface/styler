@@ -3,17 +3,17 @@ import merge from "./utils/merge";
 function extend(styles, className, extendFrom) {
   const extendeds = extendFrom.split(",");
   extendeds.forEach((extend) => {
-    styles[className] = merge(styles[className], styles[extend]);
+    styles[className] = merge(styles[extend], styles[className]);
   })
   
   return styles;
 }
 
 function extendAll(styles, className, extendFrom) {
-  const patternStr = "\\"+extendFrom+"\\W+";
-  const pattern = new RegExp(patternStr);
+  const extendeds = extendFrom.split(",");
+  const extendingClassNamePattern = new RegExp("\\"+extendFrom+"\\W+");
   Object.keys(styles).forEach(classN => {
-    if(pattern.test(classN)){
+    if(extendingClassNamePattern.test(classN)){
       styles[classN.replace(extendFrom, className)] = merge(styles[classN], styles[className]);
     }
   });
