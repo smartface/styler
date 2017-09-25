@@ -6,7 +6,8 @@ function extend(styles, className, extendFrom, runtimeCommands) {
   
   extendeds.forEach((extend) => {
     superStyles = merge(superStyles, styles[extend]);
-    if(runtimeCommands[extend]){
+    if(runtimeCommands && runtimeCommands[extend]){
+      runtimeCommands[className] = runtimeCommands[className] || [];
       runtimeCommands[className] = runtimeCommands[className].concat(runtimeCommands[extend].map(obj => merge(obj)));
     }
   });
