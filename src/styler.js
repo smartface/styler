@@ -62,6 +62,10 @@ function styler(...rawStyles) {
       const commands = stylesBundle.__runtime_commands__;
       parsedClassNames = findClassNames(classNames).map((classNm) => classNm ? classNm.join("") : "");
       parsedClassNames.forEach((className) => {
+        if(!stylesBundle[className]){
+          throw new TypeError(className+" cannot be found");
+        }
+        
         let style = stylesBundle[className];
         let factories = commands[className]
           ? commandsManager.getRuntimeCommands()
