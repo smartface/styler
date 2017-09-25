@@ -18,10 +18,15 @@ const styleWithNestedShortcuts = {
       },
       ".label": {
         width: 101,
+        font: {
+          bold: true,
+          size: "8"
+        },
         text: "label",
         ".text-16":{
           font: {
-            size: "16"
+            size: "16",
+            bold: false
           },
         },
         "&-button": {
@@ -36,9 +41,9 @@ const styleWithNestedShortcuts = {
         },
       },
       ".text-16":{
-        "@extend": ".label",
+        "@extend": ".label,.label.text-16",
         font: {
-          size: "16"
+          size: "32"
         },
         "&-blue":{
           fillColor: "black",
@@ -60,12 +65,12 @@ describe("Build Styles", function() {
       '#button.red': { width: 100, height: 200, color: 'red1' },
       '.button': { width: 100, height: 200 },
       '.button.red': { width: 100, height: 200, color: 'red1' },
-      '.label': {text: "label", width: 101},
-      '.label.text-16': { text: "label", width: 101, font: { size: "16" } },
+      '.label': {text: "label", font: {"bold": true, size: "8"}, width: 101},
+      '.label.text-16': { text: "label", width: 101, font: { size: "16", "bold": false} },
       '.label-button': { height: 400, width: 300 },
       '.label-button-red': { color: 'red' },
       '.label-button-red2': { color: 'red2' },
-      '.text-16': { font: {size: "16"}, width: 101, text: "label" },
+      '.text-16': { font: {size: "32", "bold": false}, width: 101, text: "label" },
       '.text-16-blue': { fillColor: "black", font: {size: "12dp"} }
     });
   });
