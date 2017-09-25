@@ -1,8 +1,11 @@
 import merge from "./utils/merge";
 
 function extend(styles, className, extendFrom) {
-  styles[className] = merge(styles[className], styles[extendFrom]);
-
+  const extendeds = extendFrom.split(",");
+  extendeds.forEach((extend) => {
+    styles[className] = merge(styles[className], styles[extend]);
+  })
+  
   return styles;
 }
 
