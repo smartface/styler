@@ -222,13 +222,13 @@ describe("CommandsManager", function() {
       ".b": {
         top: '10dp',
         left: '20dp',
-        "+command1:": {
+        "+command1:x": {
           width: 100
         }
       },
       ".f": {
         "@extend": ".b",
-        "+command2:": {
+        "+command2:y": {
           width: 100
         }
       },
@@ -240,7 +240,7 @@ describe("CommandsManager", function() {
       ".b": [
         {
           "type": "+command1",
-          "args": "",
+          "args": "x",
           "className": ".b",
           "value": {
             "width": 100
@@ -249,22 +249,67 @@ describe("CommandsManager", function() {
       ],
       ".f": [
         {
-          "type": "+command2",
-          "args": "",
-          "className": ".f",
+          "type": "+command1",
+          "args": "x",
+          "className": ".b",
           "value": {
             "width": 100
           }
         },
         {
-          "type": "+command1",
-          "args": "",
-          "className": ".b",
+          "type": "+command2",
+          "args": "y",
+          "className": ".f",
           "value": {
             "width": 100
           }
         }
       ]
     });
+  });
+
+  it("should be override command to extended style's command", function() {
+    const style = {
+      ".lblSummer": {
+        "textAlignment": "MIDLEFT",
+        "+page:Screen.width > 450": {
+          "textAlignment": "MIDRIGHT"
+        }
+      },
+      ".lblAccessories": {
+        "@extend": ".lblSummer",
+        "textAlignment": "MIDCENTER",
+        "+page:Screen.width > 450": {
+          "height": 20,
+          "textAlignment": "MIDCENTER"
+        }
+      }
+    };
+    
+    commands.addRuntimeCommandFactory(function runtimeCommandFactory(command) {
+      switch (command) {
+        case '+page':
+          return ({args, className, value}) => {
+            const screen = {width: 500};
+            const evalValue = (function(Screen, Device){
+              const res = eval(args);
+              res && Object.keys(value).forEach(key => value[key] = value[key]);
+              
+              return res;
+            }(screen));
+            
+            if(evalValue){
+              return value;
+            }
+            
+            return {};
+          };
+      }
+    });
+    
+    const styling = styler(style);
+    const style_ = styling(".lblAccessories")();
+    console.log(style_);
+    expect(style_).to.eql({ "height": 20, textAlignment: 'MIDCENTER' })
   });
 });

@@ -6,9 +6,11 @@ function extend(styles, className, extendFrom, runtimeCommands) {
   
   extendeds.forEach((extend) => {
     superStyles = merge(superStyles, styles[extend]);
+    // merge if extended className has runtime commands
     if(runtimeCommands && runtimeCommands[extend]){
       runtimeCommands[className] = runtimeCommands[className] || [];
-      runtimeCommands[className] = runtimeCommands[className].concat(runtimeCommands[extend].map(obj => merge(obj)));
+      //override extended className commands
+      runtimeCommands[className] = runtimeCommands[extend].map(item => merge(item)).concat(runtimeCommands[className].map(obj => merge(obj)));
     }
   });
   

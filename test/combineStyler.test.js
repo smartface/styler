@@ -22,6 +22,9 @@ describe("Combine Stylers", function() {
         ".red":{
           color: "red",
         },
+        ".blue":{
+          color: "blue",
+        },
         font: {
             size: "12dp",
             bold: true
@@ -63,10 +66,10 @@ describe("Combine Stylers", function() {
   };
   
   it("should combine given stylers", () => {
-      const combined = combineStyler(styler(style1), styler(style2))(".button");
+      const combined = combineStyler(styler(style1), styler(style2))(".button .button.red .button.blue");
       const res = combined();
       
-      expect(res).to.be.eql({width: 100, height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } });
+      expect(res).to.be.eql({width: 100, height: 200, "color": "blue", "fillColor": "#ff0c0c", top: '10dp', left: '20dp', font: { size: '20dp', bold: true } });
   });
   
   it("should be able to use with memoizeStyler", () => {

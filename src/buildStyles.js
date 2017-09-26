@@ -16,6 +16,7 @@ export default function buildStyles(...rawStyles) {
         runtimeCommands.isEmpty && delete runtimeCommands.isEmpty;
         Object.keys(res.runtimeCommands).forEach(key => {
           runtimeCommands[key] = runtimeCommands[key] || [];
+          // merge command collection with new by key
           res.runtimeCommands[key] && (runtimeCommands[key] = runtimeCommands[key].concat(res.runtimeCommands[key]));
         });
       }
