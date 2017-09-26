@@ -54,16 +54,19 @@ function styler(...rawStyles) {
    * 
    * @param {...string} classNames - Class names of desired styles
    */
-  return function stylingComposer(classNames) {
+  return function stylingComposer(classNames, error) {
     var parsedClassNames;
     const styles = [];
+    const notFound = [];
+    
 
     if (classNames) {
       const commands = stylesBundle.__runtime_commands__;
       parsedClassNames = findClassNames(classNames).map((classNm) => classNm ? classNm.join("") : "");
       parsedClassNames.forEach((className) => {
         if(!stylesBundle[className]){
-          throw new TypeError(className+" cannot be found");
+          notFound.push(className);
+          return;
         }
         
         let style = stylesBundle[className];
@@ -81,6 +84,8 @@ function styler(...rawStyles) {
         
         styles.push(style);
       });
+      
+      
     } else {
       const commands = stylesBundle.__runtime_commands__;
       const factories = commandsManager.getRuntimeCommands();
@@ -103,7 +108,11 @@ function styler(...rawStyles) {
     }
 
     const style = merge.apply(null, styles);
-
+    
+    if(notFound.length > 0 && error){
+      error(notFound.join(", ")+" cannot be found.");
+    }
+    
     /**
      * Styles mapper. If passed a function as the argument then return styles to the funtion or null then return style object.
      * 
