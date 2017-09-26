@@ -125,16 +125,18 @@ function styler(...rawStyles) {
       if (fn) {
         let result = {};
 
-        parsedClassNames.forEach((className) => {
-          Object.keys(stylesBundle[className]).forEach((key) => {
-            let value = stylesBundle[className][key] !== null &&
-              stylesBundle[className][key] instanceof Object ?
-              merge(stylesBundle[className][key]) :
-              stylesBundle[className][key];
-
-            result[key] = fn(classNames, key, value);
-          });
-        });
+        // parsedClassNames.forEach((className) => {
+          if(style){
+            Object.keys(style).forEach((key) => {
+              let value = style[key] !== null &&
+                style[key] instanceof Object 
+                  ? merge(style[key])
+                  : style[key];
+  
+              result[key] = fn(classNames, key, value);
+            });
+          }
+        // });
 
         return result;
       };
