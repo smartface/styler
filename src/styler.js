@@ -47,7 +47,7 @@ import commandsManager from "./commandsManager";
  * @returns {function} - Styling composer
  */
 function styler(...rawStyles) {
-  const stylesBundle = buildStyles.apply(null, rawStyles);
+  const stylesBundle = (rawStyles.length == 0 && rawStyles[0].__runtimme_commands__) ? rawStyles[0] : buildStyles.apply(null, rawStyles);
 
   /**
    * Styling composer

@@ -24,7 +24,7 @@ function flat(styles){
             type: skey.slice(0, skey.indexOf(":")),
             args: skey.slice(skey.indexOf(":")+1),
             className: parent+newKey,
-            value: merge(style[key][skey])
+            value: style[key][skey]
           });
           
           delete style[skey];
@@ -69,7 +69,7 @@ function flat(styles){
 }
 
 function flatStyles(styles){
-  return styles.map(style => flat(style));
+  return styles.map(style => flat(merge(style)));
 }
 
 export default function styleDenormalizer() {

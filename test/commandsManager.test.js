@@ -309,7 +309,7 @@ describe("CommandsManager", function() {
     
     const styling = styler(style);
     const style_ = styling(".lblAccessories")();
-    console.log(style_);
-    expect(style_).to.eql({ "height": 20, textAlignment: 'MIDCENTER' })
+    
+    expect(style_).to.eql({ "height": 20, textAlignment: 'MIDCENTER' });
   });
 });
