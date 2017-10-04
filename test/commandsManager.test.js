@@ -7,8 +7,9 @@ import findClassNames from "../src/utils/findClassNames";
 import componentStyler from "../src/componentStyler";
 import { expect } from "chai";
 import builder from "../src/buildStyles";
+import styleDenormalizer from "../src/utils/styleDenormalizer";
 import commands from "../src/commandsManager";
-
+  
 // import {findClassNames} from "../src/styler";
 // const styler = require("../src/styler").styler;
 // const resetStylerCache = require("../src/styler").resetStylerCache;
@@ -18,9 +19,14 @@ describe("CommandsManager", function() {
   var component = { prop: "-", top: 0, left: 0 };
 
   beforeEach(function() {});
-
-  it("should be add a new command", function() {
+  it("should be listed parent classNames first. ", function() {
     var style1 = {
+      ".base": {
+        "type": "base"
+      },
+      ".button2": {
+        "@extend": ".button.red"
+      },
       ".button": {
         top: '10dp',
         left: '20dp',
@@ -28,6 +34,78 @@ describe("CommandsManager", function() {
           size: "20dp"
         },
         ".red": {
+          "&_red2": {
+            "@extend": {
+              "top": 300
+            }
+          },
+          top: 10,
+          "@extend": {
+            "top": 200
+          },
+          fillColor: "#ff0c0c"
+        },
+        "@extend": {
+          "top": 100
+        },
+        "+media:Screen.width > 100": {
+          "top": 100,
+          "width": "Screen.width/2"
+        },
+        "@extend": ".base"
+      }
+    };
+    
+    var bundle = styleDenormalizer(style1);
+    // console.log(bundle[0].commands);
+    expect(bundle[0]["commands"]).to.eql({
+      "@extend": [
+        {
+          "className": ".button2",
+          "value": ".button.red"
+        },
+        {
+          "className": ".button",
+          "value": ".base"
+        },
+        {
+          "className": ".button.red",
+          "value": {
+            "top": 200
+          }
+        },
+        {
+          "className": ".button.red_red2",
+          "value": {
+            "top": 300
+          }
+        }
+      ]
+    });    
+  });
+  
+  it("should be add a new command", function() {
+    
+    var style1 = {
+      ".base": {
+        "type": "base"
+      },
+      ".button": {
+        top: '10dp',
+        left: '20dp',
+        font: {
+          size: "20dp"
+        },
+        ".red": {
+          "&_red2": {
+            "@newCommand": {
+              "top": 300
+            }
+          },
+          top: 10,
+          "@newCommand": {
+            "top": 200
+          },
           fillColor: "#ff0c0c"
         },
         "@newCommand": {
@@ -36,15 +114,25 @@ describe("CommandsManager", function() {
         "+media:Screen.width > 100": {
           "top": 100,
           "width": "Screen.width/2"
-        }
+        },
+        "@extend": ".base"
+      },
+      ".button2": {
+        "@extend": ".button.red"
       }
     };
-
+    
     commands.addCommandFactory(function(command) {
       switch (command) {
         case '@newCommand':
           return (styles, className, value) => {
-            styles[className].top = value.top;
+            try {
+              styles[className] = {...styles[className], ...value};
+                
+            } catch(e) {
+               console.log("Error: styles: %s, className: %s value: %s", JSON.stringify(styles), className, JSON.stringify(value), e.message);
+               throw new Error(e);
+            }
             
             return styles;
           };
@@ -52,16 +140,16 @@ describe("CommandsManager", function() {
     });
     
     const styling = styler(style1);
-    const styles = styling(".button")();
+    const styles = styling(".button2")();
     
-    // console.log(styling(".button")())
-
     expect(styles).to.eql({
-      top: 100,
+      top: 200,
+      "fillColor": "#ff0c0c",
       left: '20dp',
       font: {
         size: "20dp"
       },
+      "type": "base"
     });
   });
   
@@ -170,51 +258,143 @@ describe("CommandsManager", function() {
     };
 
     const styling = styler(style1);
-    const styles = styling(".buttonExtended.red")();
-
+    // const styles = styling(".buttonExtended.red")();
+    // var bundle = styleDenormalizer(style1);
+    // console.log(bundle[0].commands);
+    
     expect(styling()()).to.eql(
-      { '.button': { top: '10dp', left: '20dp', font: { size: '20dp' } },
-      '.button.red': 
-       { top: '10dp',
-         left: '20dp',
-         font: { size: '20dp' },
-         fillColor: '#ff0c0c' },
-      '.button.f': { top: '10dp', left: '20dp', font: { size: '20dp' } },
-      '.button.f.red': 
-       { top: '10dp',
-         left: '20dp',
-         font: { size: '20dp' },
-         fillColor: '#ff0c0c' },
-      '.buttonExtended': { top: 100 },
-      '.buttonExtended.red': 
-       { top: 100,
-         left: '20dp',
-         font: { size: '20dp' },
-         fillColor: '#ff0c0c' },
-      '.buttonExtended.f': { top: 100, left: '20dp', font: { size: '20dp' } },
-      '.buttonExtended.f.red': 
-       { top: 100,
-         left: '20dp',
-         font: { size: '20dp' },
-         fillColor: '#ff0c0c' },
-      '.buttonA': { top: null, left: null },
-      '.buttonA.red': 
-       { top: null,
-         left: null,
-         font: { size: '20dp' },
-         fillColor: '#ff0c0c' },
-      '.buttonA.f': { top: null, left: null, font: { size: '20dp' } },
-      '.buttonA.f.red': 
-       { top: null,
-         left: null,
-         font: { size: '20dp' },
-         fillColor: '#ff0c0c' },
-      // ".buttonA":{
-      //   top: null,
-      //   left: null,
-      // } 
-      }
+      {
+        ".button": {
+          "top": "10dp",
+          "left": "20dp",
+          "font": {
+            "size": "20dp"
+          }
+        },
+        ".button.red": {
+          "top": "10dp",
+          "left": "20dp",
+          "font": {
+            "size": "20dp"
+          },
+          "fillColor": "#ff0c0c"
+        },
+        ".button.f": {
+          "top": "10dp",
+          "left": "20dp",
+          "font": {
+            "size": "20dp"
+          }
+        },
+        ".button.f.red": {
+          "top": "10dp",
+          "left": "20dp",
+          "font": {
+            "size": "20dp"
+          },
+          "fillColor": "#ff0c0c"
+        },
+        ".buttonExtended": {
+          "top": 100,
+          "left": "20dp",
+          "font": {
+            "size": "20dp"
+          }
+        },
+        ".buttonA": {
+          "top": null,
+          "left": null,
+          "font": {
+            "size": "20dp"
+          }
+        },
+        ".buttonExtended.red": {
+          "top": 100,
+          "left": "20dp",
+          "font": {
+            "size": "20dp"
+          },
+          "fillColor": "#ff0c0c"
+        },
+        ".buttonA.red": {
+          "top": null,
+          "left": null,
+          "font": {
+            "size": "20dp"
+          },
+          "fillColor": "#ff0c0c"
+        },
+        ".buttonExtended.f": {
+          "top": 100,
+          "left": "20dp",
+          "font": {
+            "size": "20dp"
+          }
+        },
+        ".buttonA.f": {
+          "top": null,
+          "left": null,
+          "font": {
+            "size": "20dp"
+          }
+        },
+        ".buttonExtended.f.red": {
+          "top": 100,
+          "left": "20dp",
+          "font": {
+            "size": "20dp"
+          },
+          "fillColor": "#ff0c0c"
+        },
+        ".buttonA.f.red": {
+          "top": null,
+          "left": null,
+          "font": {
+            "size": "20dp"
+          },
+          "fillColor": "#ff0c0c"
+        }
+      }      
      )
+  });
+  
+  it("should extend at any key position", function() {
+    var style_ = {
+      ".page": {
+        "parent": "page"
+      },
+      "#pgSignupTablet": {
+        ".btnFacebook": {
+          "backgroundColor": "rgba(71,94,174,1)",
+          "width": null,
+          "height": 70,
+          "marginLeft": 20,
+          "marginRight": 10,
+          "marginBottom": null,
+          "flexProps": {
+            "flexGrow": 1
+          },
+          "font": {
+            "size": 28,
+            "family": "Lato"
+          },
+          "+isTablet_landscape:": {
+            "marginRight": 20,
+            "marginBottom": 10
+          }
+        },
+        "@extend": ".page",
+        "orientation": "AUTO"
+      }
+    };
+    
+    var bundle = styleDenormalizer(style_);
+    
+
+    const styling = styler(style_);
+    const styles = styling("#pgSignupTablet.btnFacebook")();
+
+    expect(styles.parent).to.equal("page");
   });
   
   it("should be able to extend with owner style", function() {
@@ -227,10 +407,13 @@ describe("CommandsManager", function() {
         }
       },
       ".f": {
-        "@extend": ".b",
+        ".button": {
+          "type": "button"
+        },
         "+command2:y": {
           width: 100
-        }
+        },
+        "@extend": ".b",
       },
     };
     
@@ -277,12 +460,12 @@ describe("CommandsManager", function() {
         }
       },
       ".lblAccessories": {
-        "@extend": ".lblSummer",
         "textAlignment": "MIDCENTER",
         "+page:Screen.width > 450": {
           "height": 20,
           "textAlignment": "MIDCENTER"
-        }
+        },
+        "@extend": ".lblSummer"
       }
     };
     

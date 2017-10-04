@@ -2,14 +2,17 @@ import styleDenormalizer from "./utils/styleDenormalizer";
 import commander from "./utils/commander";
 import merge from "./utils/merge";
 import commands from "./commandsManager";
+const config = require("../package.json");
 
 export default function buildStyles(...rawStyles) {
   const runtimeCommands = {isEmpty: true};
   
+  if(rawStyles[0].__styler_bundle__)
+    return rawStyles[0];
+    
   const built = styleDenormalizer
     .apply(null, rawStyles)
     .reduce( (acc, res) => {
-      
       acc = merge(acc, res.styles);
       commander(acc, res.commands, commands.getCommands(), res.runtimeCommands);
       if(res.runtimeCommands){
@@ -36,5 +39,17 @@ export default function buildStyles(...rawStyles) {
         });
     }
 
+  Object.defineProperty(
+    built, 
+    '__styler_bundle__', 
+    {
+      enumerable: false,
+      configurable: false,
+      writable: false,
+      value: {
+        version: config.version
+      }
+    });
+    
   return built;
 }

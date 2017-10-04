@@ -29,4 +29,3 @@ export default function deepMerge(...args) {
 
   return acc;
 }
-

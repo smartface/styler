@@ -7,6 +7,7 @@ function flat(styles){
   const denormalizedStyles = {};
   const commands = {};
   const runtimeCommands = {};
+  var parentIndex = 0;
 
   function flatStyle(style, key, parent="") {
     Object.keys(style[key]).forEach((skey) => {
@@ -27,16 +28,23 @@ function flat(styles){
             value: style[key][skey]
           });
           
-          delete style[skey];
+          delete style[key][skey];
           break;
         case COMMAND:
           commands[skey] = commands[skey] || [];
-          commands[skey].push({
+          const newCommand = {
             className: parent+newKey,
             value: style[key][skey]
-          });
+          };
           
-          delete style[skey];
+          if(parent === "") {
+            commands[skey].splice(parentIndex, 0, newCommand);
+            parentIndex = commands[skey].length;
+          } else {
+            commands[skey].splice(parentIndex, 0, newCommand);
+          }
+
+          delete style[key][skey];
           break;
         case CLASSNAME:
         case ID:
@@ -57,7 +65,7 @@ function flat(styles){
     });
   }
   
-  Object.keys(styles).forEach((key) => {
+  Object.keys(styles).forEach((key, index) => {
     flatStyle(styles, key);
   });
   
@@ -65,7 +73,7 @@ function flat(styles){
     styles: denormalizedStyles,
     commands,
     runtimeCommands
-  }
+  };
 }
 
 function flatStyles(styles){
