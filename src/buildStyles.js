@@ -2,7 +2,6 @@ import styleDenormalizer from "./utils/styleDenormalizer";
 import commander from "./utils/commander";
 import merge from "./utils/merge";
 import commands from "./commandsManager";
-const config = require("../package.json");
 
 export default function buildStyles(...rawStyles) {
   const runtimeCommands = {isEmpty: true};
@@ -46,9 +45,7 @@ export default function buildStyles(...rawStyles) {
       enumerable: false,
       configurable: false,
       writable: false,
-      value: {
-        version: config.version
-      }
+      value: true
     });
     
   return built;
