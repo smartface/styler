@@ -8,9 +8,13 @@ function hasProp(target, prop) {
 
 function recurse(acc, obj) {
   for (var p in obj) {
-    acc[p] = isObj(obj[p]) ?
-      recurse(hasProp(acc, p) ? acc[p] : {}, obj[p]) :
-      obj[p];
+    acc[p] = (isObj(obj[p]) && isObj(acc[p])) || (isObj(obj[p]) && !acc[p])
+      ? recurse(
+          hasProp(acc, p)
+            ? acc[p]
+            : {},
+          obj[p])
+      : obj[p];
   }
 
   return acc;

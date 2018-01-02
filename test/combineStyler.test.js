@@ -19,6 +19,7 @@ describe("Combine Stylers", function() {
       ".button": {
         width: 100,
         height: 200,
+        color: "button",
         ".red":{
           color: "red",
         },
@@ -48,12 +49,16 @@ describe("Combine Stylers", function() {
     
   var style2 = {
     ".button": {
+      "&-red":{
+        color: "red2",
+      },
       top: '10dp',
       left: '20dp',
       font: {
         size: "20dp"
       },
       ".red": {
+        color: 'dark-red',
         fillColor: "#ff0c0c"
       }
     }
@@ -66,10 +71,40 @@ describe("Combine Stylers", function() {
   };
   
   it("should combine given stylers", () => {
-      const combined = combineStyler(styler(style1), styler(style2))(".button .button.red .button.blue");
-      const res = combined();
-      
-      expect(res).to.be.eql({width: 100, height: 200, "color": "blue", "fillColor": "#ff0c0c", top: '10dp', left: '20dp', font: { size: '20dp', bold: true } });
+    const combined = combineStyler(styler(style1), styler(style2));
+    
+    console.log(JSON.stringify(styler(style1)(".button .button.red .button.blue")(), ' ', '\t'));
+    console.log(JSON.stringify(styler(style2)(".button .button.red .button.blue")(), ' ', '\t'));
+
+    expect(combined(".button .button.red .button.blue")()).to.be.eql({
+      width: 100, 
+      height: 200, 
+      color: "dark-red", 
+      "fillColor": "#ff0c0c", 
+      top: '10dp', 
+      left: '20dp', 
+      font: { size: '20dp', bold: true } 
+    });
+
+    expect(combined(".button .button-red")()).to.be.eql({
+      width: 100, 
+      height: 200, 
+      color: "red2",
+      top: '10dp', 
+      left: '20dp', 
+      font: { size: '20dp', bold: true } 
+    });
+    
+    
+    expect(combined(".button .button-red .button.red")()).to.be.eql({
+      width: 100, 
+      height: 200, 
+      "color": "dark-red",
+      "fillColor": "#ff0c0c",
+      top: '10dp', 
+      left: '20dp', 
+      font: { size: '20dp', bold: true } 
+    });
   });
   
   it("should be able to use with memoizeStyler", () => {
@@ -78,7 +113,7 @@ describe("Combine Stylers", function() {
     const cachableStyling = memoizeStyler(combinedStyling);
     const style = cachableStyling(".button")();
     
-    expect(mergedRes).to.be.eql({width: 100, height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } });
+    expect(mergedRes).to.be.eql({width: 100, color:'button', height: 200, top: '10dp', left: '20dp', font: { size: '20dp', bold: true } });
     expect(style).to.be.eql(mergedRes);
   });
 
@@ -87,6 +122,6 @@ describe("Combine Stylers", function() {
     const combined2 = combineStyler(combined1, styler(style3));
     const combinedRes = combined2(".button")();
 
-    expect(combinedRes).to.be.eql({width: 100, height: 200, top: '1000', left: '20dp', font: { size: '20dp', bold: true } });
+    expect(combinedRes).to.be.eql({width: 100, height: 200, color: 'button', top: '1000', left: '20dp', font: { size: '20dp', bold: true } });
   });
 });

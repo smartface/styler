@@ -158,4 +158,25 @@ describe("Merge Objects", function() {
     expect(res).to.be.eql({x: NaN, y: null, z:{a: 1, b: NaN}});
   });
 
+  it("should be overrode object value to non-object value", function() {
+    const res = merge({x: 100, y: 10, z: 100}, {x: NaN, y:null, z:{b: NaN}});
+    
+    expect(res).to.be.eql({x: NaN, y: null, z:{b: NaN}});
+  });
+
+  it("should be overrode non-object value to object value", function() {
+
+    {
+      const res = merge({x: 100, y: 10, z:{b: NaN}}, {x: NaN, y:null, z: 100});
+    
+      expect(res).to.be.eql({x: NaN, y: null, z:100});
+    }
+
+    {
+      const res = merge({x: 100, y: 10, z:{b: "abc"}}, {x: NaN, y:null, z: 100});
+    
+      expect(res).to.be.eql({x: NaN, y: null, z:100});
+    }
+  });
+
 });
