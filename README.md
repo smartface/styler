@@ -125,7 +125,7 @@ const styles = {
 ```
 
 ## Styling Conventions and Best Practices
-According to [BEM](http://getbem.com/), pages are built with blocks, blocks are built with elements and another blocks. Elements and blocks have modifiers that are used to manipulate their display properties. 
+According to [BEM](http://getbem.com/), pages are built by blocks, blocks are built by elements and another blocks. Elements and blocks have modifiers that are used to manipulate their display properties. 
 
 For the blocks we can use "\__" or "\_" and for the elements we can use "\__" or "\_" and for the modifiers we can use "\--" or "\-".
 
