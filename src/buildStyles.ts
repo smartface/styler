@@ -2,7 +2,7 @@ import styleDenormalizer from "./utils/styleDenormalizer";
 import commander from "./utils/searchAndApplyCommand";
 import merge from "./utils/merge";
 import commands from "./commandsManager";
-import { Style } from "./Style";
+import type { Style } from "./StylerTypes";
 import { RUNTIME_COMMAND_DESCRIPTOR, STYLER_BUNDLE_DESCRIPTOR } from "./constants";
 
 export default function buildStyles(...rawStyles: Style[]) {

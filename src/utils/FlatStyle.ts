@@ -1,4 +1,4 @@
-import { Style } from "../Style";
+import type { Style } from "../StylerTypes";
 
 export type FlatStyle = {
   styles: Style;

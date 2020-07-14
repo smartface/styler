@@ -2,7 +2,7 @@ import {styleAssign, styleAssignAndClone} from "./styleAssign";
 import merge from "./merge";
 
 import {CLASSNAME, RUNTIME_COMMAND, ID, CHILD_CLASS, COMMAND} from "../constants";
-import type { Style } from "../Style";
+import type { Style } from "../StylerTypes";
 import type { FlatStyle } from "./FlatStyle";
 
 function flat(styles: Style): FlatStyle {
