@@ -155,13 +155,13 @@ describe("Styler", function() {
   beforeEach(function() {});
 
   it("should pass styles to callback", function() {
-    var component = {
+    let component: object = {
       width: 0,
       height: 0,
       color: "",
     };
 
-    var component2 = {
+    let component2 = {
       width: 0,
       height: 0,
       color: "",
@@ -294,7 +294,6 @@ describe("Styler", function() {
               "backgroundColor": "#D8D8D8"
             },
             ".active": {
-              "width": 113,
               "backgroundColor": "#000000",
               width: null
             }

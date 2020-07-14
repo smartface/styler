@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"noEmit": false,
+		"allowJs": false,
+		"baseUrl": "src",
+		"rootDir": ".",
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"outFile": "./dist/types",
+		"target": "ES5",
+	},
+	"include": ["src"],
+	"exclude": ["docs", "examples", "node_modules", "**/*.test.js", "test"]
+}

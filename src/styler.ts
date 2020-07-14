@@ -4,12 +4,12 @@
  * @author Cenk Cetinkaya
  */
 
-import cloneStyle from "./utils/cloneStyle";
 import findClassNames from "./utils/findClassNames";
-import mapStyles from "./utils/flatMapStyles";
 import buildStyles from "./buildStyles";
 import merge from "./utils/merge";
 import commandsManager from "./commandsManager";
+import { Styler } from "StylerTypes";
+
 
 /**
  * Styling Wrapper. In order to return desired styles. Makes styles flatted then merge all by classNames then pass merged styles to callback.
@@ -46,16 +46,20 @@ import commandsManager from "./commandsManager";
  * @param {...Object.<string, (string | number | function | Object)>} - Style Objects
  * @returns {function} - Styling composer
  */
-function styler(...rawStyles) {
+const styler: Styler = (...rawStyles) => {
   const stylesBundle = buildStyles.apply(null, rawStyles);
 
   /**
-   * Styling composer
+   * Styling factory
    * 
    * @param {...string} classNames - Class names of desired styles
    */
-  return function stylingComposer(classNames, error) {
-    var parsedClassNames;
+  return function styleFactory(classNames?: string, errorHandler?:(error:any) => void) {
+    if(errorHandler && typeof errorHandler !== "function"){
+      throw new Error("Error handler must be a function");
+    }
+
+    let parsedClassNames: string[];
     const styles = [];
     const notFound = [];
     
@@ -109,8 +113,8 @@ function styler(...rawStyles) {
 
     const style = merge.apply(null, styles);
     
-    if(notFound.length > 0 && error){
-      error(notFound.join(", ")+" cannot be found.");
+    if(notFound.length > 0 && errorHandler){
+      errorHandler(notFound.join(", ")+" cannot be found.");
     }
     
     /**
@@ -118,14 +122,13 @@ function styler(...rawStyles) {
      * 
      * @param {?function=} [null] fn - Mapping callback function
      */
-    return function stylesComposer(fn = null) {
+    return function stylesComposer(mapFn:(classNames: string, key: string, value:any)=>void = null) {
 
       //create deepcopy of the style
 
-      if (fn) {
+      if (mapFn) {
         let result = {};
 
-        // parsedClassNames.forEach((className) => {
           if(style){
             Object.keys(style).forEach((key) => {
               let value = style[key] !== null &&
@@ -133,10 +136,9 @@ function styler(...rawStyles) {
                   ? merge(style[key])
                   : style[key];
   
-              result[key] = fn(classNames, key, value);
+              result[key] = mapFn(classNames, key, value);
             });
           }
-        // });
 
         return result;
       };

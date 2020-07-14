@@ -1,4 +1,6 @@
 import cloneStyle from "./cloneStyle";
+import { isObj } from "./isObj";
+import deepMerge from "./merge";
 
 /**
  * Assigns value to target object with key
@@ -7,12 +9,12 @@ import cloneStyle from "./cloneStyle";
  * @param {String} key
  * @param {*} value
  */
-export function styleAssign(target, key, value) {
+export function styleAssign(target: object, key: string, value: any) {
   const style = target;
 
-  if (style[key] !== null && typeof style[key] === "object") {
-    style[key] = {...style[key], ...value};
-  } else if (value !== null  && typeof value === "object") {
+  if (isObj(style[key])) {
+    Object.assign(style[key], value);
+  } else if (isObj(value)) {
     style[key] = {...value};
   } else {
     style[key] = value;
@@ -26,6 +28,6 @@ export function styleAssign(target, key, value) {
  * @param {String} key
  * @param {*} value
  */
-export function styleAssignAndClone(target, key, value) {
+export function styleAssignAndClone(target: object, key: string, value: any) {
   styleAssign(target, key, cloneStyle(value));
 }

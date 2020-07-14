@@ -1,8 +1,8 @@
 import merge from "./utils/merge";
 
-function extend(styles, className, extendFrom, runtimeCommands) {
+function extend(styles: object, className: string, extendFrom: string, runtimeCommands: {[key: string]: any}) {
   if(extendFrom === null || extendFrom === undefined)
-    throw new TypeError(`Classname: ${className} must not have empty extending class`);
+    throw new TypeError(`Classname: ${className} must not be extended from empty parent`);
   
   const classNamePattern = new RegExp("\\"+className+"[\\.]+");
   const extendeds = extendFrom.split(",");
@@ -29,8 +29,8 @@ function extend(styles, className, extendFrom, runtimeCommands) {
   return styles;
 }
 
-function extendAll(styles, className, extendFrom) {
-  const extendeds = extendFrom.split(",");
+function extendAll(styles: object, className: string, extendFrom: string) {
+  const parents = extendFrom.split(",");
   const extendingClassNamePattern = new RegExp("\\"+extendFrom+"\\W+");
   
   Object.keys(styles).forEach(classN => {
@@ -55,11 +55,14 @@ function findCommnand(command) {
 const commands = [findCommnand];
 const runtimeCommands = [];
 
+export type RuntimeCommand = (styles: {[key: string]: any}, className: string, value: any) => object;
+export type CommandFactory = (command: string) => RuntimeCommand;
+export type RuntimeCommandFactory = (command: string) => (params: {args: string, className: string, value: any}) => object;
 export default {
-  addCommandFactory(commandFactory) {
+  addCommandFactory(commandFactory: CommandFactory) {
     commands.push(commandFactory);
   },
-  addRuntimeCommandFactory(commandFactory) {
+  addRuntimeCommandFactory(commandFactory: RuntimeCommandFactory) {
     runtimeCommands.push(commandFactory);
   },
   getCommands() {

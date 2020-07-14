@@ -1,12 +1,7 @@
-function isObj(val) {
-  return val !== null && val instanceof Object;
-}
+import { hasProp } from "./hasProp";
+import { isObj } from "./isObj";
 
-function hasProp(target, prop) {
-  return Object.prototype.hasOwnProperty.call(target, prop);
-}
-
-function recurse(acc, obj) {
+function recurse(acc:{[key: string]: any}, obj: object) {
   for (var p in obj) {
     acc[p] = (isObj(obj[p]) && isObj(acc[p])) || (isObj(obj[p]) && !acc[p])
       ? recurse(
@@ -25,8 +20,9 @@ function recurse(acc, obj) {
  * 
  * @returns {Object}
  */
-export default function deepMerge(...args) {
-  let acc = {};
+export default function deepMerge(...args:object[]) {
+  let acc:{[key: string]: any} = {};
+
   for (var i = 0; i < args.length; i++) {
     acc = recurse(acc, args[i]);
   }

@@ -1,5 +1,5 @@
-const getClassValue = function (styleDef) {
-  return function (className) {
+export default function getClassValue(styleDef: object) {
+  return function (className: string) {
     if (typeof styleDef[className] === 'undefined') {
       return styleDef[className];
     }
@@ -7,5 +7,3 @@ const getClassValue = function (styleDef) {
     throw new Error(`Specified className ${className} is not found.`);
   };
 };
-
-export default getClassValue;

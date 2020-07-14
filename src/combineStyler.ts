@@ -22,14 +22,13 @@ import merge from "./utils/merge";
  * @param {...function} - Styling functions
  * @returns {function} - Styling Composer
  */
-export default function combineStyler() {
-  const stylings = Array.prototype.slice.call(arguments);
+export default function combineStyler(...stylings: any[]) {
   /**
    * Styling composer
    * 
    * @param {string} classNames - Class names of desired styles
    */
-  return function combinedStyleComposer(classNames) {
+  return function combinedStyleComposer(classNames: string) {
     const results = [];
     stylings.forEach(styling => results.push(styling(classNames)()));
     
@@ -41,7 +40,7 @@ export default function combineStyler() {
      * @param {function} fn - Style map callback function
      * @returns {Object|null} - return style object
      */
-    return function(fn) {
+    return function(fn?:Function) {
       if(typeof classNames !== "string"){
         return stylings.slice();
       }
