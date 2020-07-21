@@ -1,6 +1,5 @@
 import cloneStyle from "./cloneStyle";
 import { isObj } from "./isObj";
-import deepMerge from "./merge";
 
 /**
  * Assigns value to target object with key

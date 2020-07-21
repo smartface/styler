@@ -8,14 +8,14 @@ import findClassNames from "./utils/findClassNames";
 import buildStyles from "./buildStyles";
 import merge from "./utils/merge";
 import commandsManager from "./commandsManager";
-import { Styler } from "StylerTypes";
+import { Styler } from "./StylerTypes";
 
 
 /**
  * Styling Wrapper. In order to return desired styles. Makes styles flatted then merge all by classNames then pass merged styles to callback.
  * 
  * @example
- *  const styler = require("@smartface/styler").styler or require("@smartface/styler/lib/styler");
+ *  import styler from "@smartface/styler";
  *  const styles = {
  *      ".button"{
  *        widht: "100px",
