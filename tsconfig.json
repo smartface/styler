@@ -5,10 +5,8 @@
 		"outDir": "lib",
 		"target": "ES5",
 		"sourceMap": true,
-		"declaration": true,
-		"emitDeclarationOnly": true,
-		"outFile": "./index.d.ts"
+		"declaration": true
 	},
-	"include": ["src"],
+	"include": ["src", "lib/**/*.d.ts"],
 	"exclude": ["docs", "examples", "node_modules", "**/*.test.js", "test"]
 }
