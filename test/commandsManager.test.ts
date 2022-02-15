@@ -3,23 +3,16 @@
  */
 
 import styler from "../src/styler";
-import findClassNames from "../src/utils/findClassNames";
-import componentStyler from "../src/componentStyler";
 import { expect } from "chai";
 import builder from "../src/buildStyles";
 import styleDenormalizer from "../src/utils/styleDenormalizer";
 import commands from "../src/commandsManager";
-  
-// import {findClassNames} from "../src/styler";
-// const styler = require("../src/styler").styler;
-// const resetStylerCache = require("../src/styler").resetStylerCache;
-// const componentStyler = require("../src/styler").componentStyler;
 
 describe("CommandsManager", function() {
   var component = { prop: "-", top: 0, left: 0 };
 
   beforeEach(function() {});
-  it("should be listed parent classNames first. ", function() {
+  it("should list parent classNames first. ", function() {
     var style1 = {
       ".base": {
         "type": "base"
@@ -44,9 +37,6 @@ describe("CommandsManager", function() {
             "top": 200
           },
           fillColor: "#ff0c0c"
-        },
-        "@extend": {
-          "top": 100
         },
         "+media:Screen.width > 100": {
           "top": 100,

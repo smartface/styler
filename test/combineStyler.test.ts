@@ -3,9 +3,7 @@
  */
 
 import styler from "../src/styler";
-import findClassNames from "../src/utils/findClassNames";
 import combineStyler from "../src/combineStyler";
-import componentStyler from "../src/componentStyler";
 import memoizeStyler from "../src/memoizeStyler";
 import {expect} from "chai";
 
@@ -73,9 +71,6 @@ describe("Combine Stylers", function() {
   it("should combine given stylers", () => {
     const combined = combineStyler(styler(style1), styler(style2));
     
-    console.log(JSON.stringify(styler(style1)(".button .button.red .button.blue")(), ' ', '\t'));
-    console.log(JSON.stringify(styler(style2)(".button .button.red .button.blue")(), ' ', '\t'));
-
     expect(combined(".button .button.red .button.blue")()).to.be.eql({
       width: 100, 
       height: 200, 

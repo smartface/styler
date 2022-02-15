@@ -1,4 +1,3 @@
-import {styleAssignAndClone} from "./utils/styleAssign";
 import merge from "./utils/merge";
 import findClassNames from "./utils/findClassNames";
 

@@ -12,8 +12,7 @@ import styler from "./styler";
  * @param {...function} - Styling functions
  * return {function} - Styling Composer
  */
-export default function flatStyler(){
-  const stylers = Array.prototype.slice.call(arguments);
+export default function flatStyler(...stylers: Function[]){
   const styles = stylers.map(function(stylr){
     const style = stylr()(); 
     
@@ -29,7 +28,7 @@ export default function flatStyler(){
    * @param {string} classNames
    * @returns {Object} - Flatten Styles
    */
-  return function flatStylerStyle(classNames){
+  return function flatStylerStyle(classNames?:string){
     return flattedStyler(classNames);
   };
 }

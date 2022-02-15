@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"baseUrl": "src",
+		"rootDir": "src",
+		"outDir": "lib",
+		"target": "ES5",
+		"sourceMap": true,
+		"declaration": true
+	},
+	"include": ["src", "lib/**/*.d.ts"],
+	"exclude": ["docs", "examples", "node_modules", "**/*.test.js", "test"]
+}
