@@ -37,7 +37,7 @@ function flat(styles: Style): FlatStyle {
             className: parent+clenChildKey,
             value: style[key][skey]
           });
-          denormalizedAccumulator[key] = {};
+          denormalizedAccumulator[key] =  denormalizedAccumulator[key] || {};
           delete style[key][skey];
           break;
         case COMMAND:
@@ -53,6 +53,7 @@ function flat(styles: Style): FlatStyle {
           } else {
             commands[skey].splice(parentIndex, 0, newCommand);
           }
+          denormalizedAccumulator[key] =  denormalizedAccumulator[key] || {};
           delete style[key][skey];
           break;
         case CLASSNAME:

@@ -8,6 +8,7 @@
     "test": "mocha --compilers js:babel-core/register ./test/**/*.test.js",
     "test:watch": "mocha --watch --compilers js:babel-core/register ./test/**/*.test.js",
     "prepublish": "npm run build",
+    "watch": "tsc -w",
     "postpublish": "rm -rf ./lib",
     "build": "rm -rf ./lib && tsc",
     "docs:create": "jsdox ./src -o docs",
