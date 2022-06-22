@@ -54,7 +54,7 @@ const styler: Styler = (...rawStyles) => {
    * 
    * @param {...string} classNames - Class names of desired styles
    */
-  return function styleFactory(classNames?: string, errorHandler?:(error:any) => void) {
+  return function styleFactory(classNames?: string, errorHandler?:(error:any) => void, isCommandDisabled?: boolean) {
     if(errorHandler && typeof errorHandler !== "function"){
       throw new Error("Error handler must be a function");
     }
@@ -74,10 +74,10 @@ const styler: Styler = (...rawStyles) => {
         }
         
         let style = stylesBundle[className];
-        let factories = commands[className]
+        let factories = commands[className] && !isCommandDisabled
           ? commandsManager.getRuntimeCommands()
           : null;
-        if (factories) {
+        if (factories && !isCommandDisabled) {
           factories.forEach(factory => {
             commands[className].forEach(command => {
               let fn = factory(command.type);
@@ -96,7 +96,7 @@ const styler: Styler = (...rawStyles) => {
       styles.push(stylesBundle);
       
       // if runtime commands and command factories exist
-      if (factories.length > 0 && commands) {
+      if (factories.length > 0 && commands && !isCommandDisabled) {
         // run all runtime commands of the styles
         Object.keys(commands).forEach(className => {
           commands[className].forEach(command => {
